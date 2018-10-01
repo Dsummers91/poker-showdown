@@ -49,7 +49,7 @@ defmodule Showdown.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
+  def create_user(attrs) do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
@@ -67,9 +67,9 @@ defmodule Showdown.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
+  def update_user(%{id: id, user: user_params}) do
+    Repo.get!(User, id)
+    |> User.changeset(user_params)
     |> Repo.update()
   end
 
