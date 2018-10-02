@@ -40,8 +40,8 @@ defmodule Showdown.Mixfile do
       {:absinthe, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4.0"},
-      {:cowboy, "~> 1.0"}
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:cowboy, "~> 1.0"},
+      {:dialyxir, "1.0.0-rc.3", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
       {:gettext, "~> 0.11"},
       {:phoenix, "~> 1.3.4"},
@@ -50,7 +50,7 @@ defmodule Showdown.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},
       {:poison, "~> 3.1.0"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
 
