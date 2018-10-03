@@ -3,7 +3,7 @@ defmodule CardsTest do
   alias Game.Cards
   doctest Showdown
 
-
+  @tag :skip
   test "greets the world" do
     assert Cards.return_suit() == :hearts
     assert %Cards{} == :hearts

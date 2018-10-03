@@ -16,4 +16,7 @@ defmodule Game.Cards do
     %Game.Cards{number: num, suit: suit}
   end
 
+  def get_card(deck, number, suit) do
+    Enum.find(deck, fn x -> rem(x, 2) == 1 end)
+  end
 end
