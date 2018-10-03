@@ -6,7 +6,7 @@ defmodule DeckTest do
 
 
   test "create a Deck" do
-    assert Deck.new() == [2]
+    assert length(Deck.new()) == 52
   end
 
 end

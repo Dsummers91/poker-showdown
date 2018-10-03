@@ -1,39 +1,46 @@
 defmodule Game.Hand do
   alias Game.Cards
-  @type player :: :player1 | :player2
+  alias Game.Deck
+
+  @type player :: :player1 | :player2 | :player3 | :player4
+  @type suits :: :suited | :offsuit | :any
+
+  @type hand :: %{ numbers: list(2..14), suits: suits }
 
   @player_1_hands [
-    [Cards.new_card(14, :any), Cards.new_card(14, :any)],
-    [Cards.new_card(13, :any), Cards.new_card(13, :any)],
-    [Cards.new_card(12, :any), Cards.new_card(12, :any)],
-    [Cards.new_card(11, :any), Cards.new_card(11, :any)],
-    [Cards.new_card(10, :any), Cards.new_card(10, :any)]
+    %{numbers: [14,14], suits: :any},
+    %{numbers: [13,13], suits: :any},
+    %{numbers: [12,12], suits: :any},
+    %{numbers: [11,11], suits: :any},
+    %{numbers: [10,10], suits: :any}
   ]
 
   @player_2_hands [
-    [Cards.new_card(14, :any), Cards.new_card(13, :any)],
-    [Cards.new_card(14, :any), Cards.new_card(12, :any)],
-    [Cards.new_card(14, :any), Cards.new_card(11, :any)],
-    [Cards.new_card(14, :any), Cards.new_card(10, :any)]
+    %{numbers: [14,13], suits: :any},
+    %{numbers: [14,12], suits: :any},
+    %{numbers: [14,11], suits: :any},
+    %{numbers: [14,10], suits: :any}
   ]
 
   @player_3_hands [
-    [Cards.new_card(5, :any), Cards.new_card(6, :suited)],
-    [Cards.new_card(6, :any), Cards.new_card(7, :suited)],
-    [Cards.new_card(7, :any), Cards.new_card(8, :suited)],
-    [Cards.new_card(8, :any), Cards.new_card(9, :suited)],
-    [Cards.new_card(9, :any), Cards.new_card(10, :suited)]
+    %{numbers: [5, 7], suits: :suited},
+    %{numbers: [6, 7], suits: :suited},
+    %{numbers: [7, 8], suits: :suited},
+    %{numbers: [8, 9], suits: :suited},
+    %{numbers: [9, 10], suits: :suited}
   ]
 
   @player_4_hands [
-    [Cards.new_card(2, :any), Cards.new_card(2, :any)],
-    [Cards.new_card(3, :any), Cards.new_card(3, :any)],
-    [Cards.new_card(4, :any), Cards.new_card(4, :any)],
-    [Cards.new_card(5, :any), Cards.new_card(5, :any)],
-    [Cards.new_card(6, :any), Cards.new_card(6, :any)]
+    %{numbers: [2, 2], suits: :any},
+    %{numbers: [3, 3], suits: :any},
+    %{numbers: [4, 4], suits: :any},
+    %{numbers: [5, 5], suits: :any},
+    %{numbers: [6, 6], suits: :any}
   ]
 
   @doc "create hand for player"
+  def create_hand(a, b \\ Deck.new()) 
+
   @spec create_hand(player, list(Cards.card)) :: {list(Cards.card), list(Cards.card)}
   def create_hand(:player1, deck) do 
     {deck, deck}

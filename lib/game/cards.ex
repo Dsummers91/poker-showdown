@@ -1,7 +1,7 @@
 defmodule Game.Cards do
   defstruct [:number, :suit]
 
-  @type suit :: :clubs | :diamonds | :hearts | :spades | :any | :suited
+  @type suit :: :clubs | :diamonds | :hearts | :spades
   @type card_number :: 2..14
 
   @type card :: %Game.Cards{number: card_number, suit: suit}
