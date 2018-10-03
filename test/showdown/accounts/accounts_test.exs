@@ -38,16 +38,16 @@ defmodule Showdown.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
 
-    test "update_user/2 with valid data updates the user" do
+    test "update_user/1 with valid data updates the user" do
       user = user_fixture()
-      assert {:ok, user} = Accounts.update_user(user, @update_attrs)
+      assert {:ok, user} = Accounts.update_user(%{id: user.id, user: @update_attrs})
       assert %User{} = user
       assert user.address == "some updated address"
     end
 
-    test "update_user/2 with invalid data returns error changeset" do
+    test "update_user/1 with invalid data returns error changeset" do
       user = user_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user(%{id: user.id, user: @invalid_attrs})
       assert user == Accounts.get_user!(user.id)
     end
 

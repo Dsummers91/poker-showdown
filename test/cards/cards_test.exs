@@ -6,5 +6,6 @@ defmodule CardsTest do
 
   test "greets the world" do
     assert Cards.return_suit() == :hearts
+    assert %Cards{} == :hearts
   end
 end
