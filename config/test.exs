@@ -7,7 +7,9 @@ config :showdown, ShowdownWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger,
+  backends: [:console],
+    compile_time_purge_level: :warn
 
 # Configure your database
 config :showdown, Showdown.Repo,

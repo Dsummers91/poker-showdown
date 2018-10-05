@@ -27,4 +27,13 @@ defmodule DealerTest do
 		assert(length(hand) == 2)
 		assert(length(deck) == 48)
 	end
+  test "should deal all hand" do
+    deck = Deck.new()
+    {hand, deck} = Dealer.deal_to_player(:player1)
+    {hand, deck} = Dealer.deal_to_player(:player2, deck)
+    {hand, deck} = Dealer.deal_to_player(:player3, deck)
+    {hand, deck} = Dealer.deal_to_player(:player4, deck)
+		assert(length(hand) == 2)
+		assert(length(deck) == 44)
+  end
 end
