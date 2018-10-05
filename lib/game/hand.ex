@@ -31,13 +31,24 @@ defmodule Game.Hand do
   end
 
   def is_straight(numbers, hand) do 
-    numbers = hand
+    if length(hand) < 5, do: false
+    hand
       |> Enum.into([], fn x -> x.number end)
       |> Enum.sort
+      |> check_straight
+  end
 
+  def check_straight(numbers) do
+    Logger.debug List.first(numbers)
     high_number = List.first(numbers)
     low_number = if(List.last(numbers) == 1, do: 14, else: List.last(numbers))
-    false
+    Enum.all?(numbers, fn x->
+      Enum.member?(numbers, high_number) &&
+      Enum.member?(numbers, high_number-1) && 
+      Enum.member?(numbers, high_number-2) &&
+      Enum.member?(numbers, 6) &&
+      Enum.member?(numbers, low_number)
+    end)
   end
 
   def is_straight_flush(hand) do
