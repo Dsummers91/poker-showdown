@@ -25,4 +25,29 @@ defmodule HandTest do
     hand = [Cards.new_card(14, :diamonds), Cards.new_card(14, :clubs), Cards.new_card(14, :spades)]  
     assert(Hand.rank(hand) == :three_of_a_kind)
   end
+
+  test "should get full house" do
+    hand = [Cards.new_card(14, :diamonds), Cards.new_card(14, :clubs), Cards.new_card(14, :spades), Cards.new_card(13, :spades), Cards.new_card(13, :spades)]  
+    assert(Hand.rank(hand) == :full_house)
+  end
+
+  test "should get four of a kind" do
+    hand = [Cards.new_card(14, :diamonds), Cards.new_card(14, :clubs), Cards.new_card(14, :spades), Cards.new_card(13, :spades), Cards.new_card(14, :hearts)]  
+    assert(Hand.rank(hand) == :four_of_a_kind)
+  end
+
+  test "should get flush" do
+    hand = [Cards.new_card(14, :diamonds), Cards.new_card(13, :diamonds), Cards.new_card(12, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(13, :diamonds)]  
+    assert(Hand.rank(hand) == :flush)
+  end
+
+  test "should get straight" do
+    hand = [Cards.new_card(9, :spades), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(6, :diamonds)]  
+    assert(Hand.rank(hand) == :straight)
+  end
+
+  test "should get straight flush" do
+    hand = [Cards.new_card(9, :diamonds), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(6, :diamonds)]  
+    assert(Hand.rank(hand) == :straight_flush)
+  end
 end

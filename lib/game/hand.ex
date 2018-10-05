@@ -10,10 +10,15 @@ defmodule Game.Hand do
   @type hand :: %{ numbers: list(2..14), suits: suits }
   
   def rank(hand) do
+    {suits, numbers} =
+      hand
+        |> suit_number_count
     cond do
+      is_straight_flush(hand) -> :straight_flush
+      is_flush(suits) -> :flush
+      is_straight(numbers, hand) -> :straight
       is_four_of_a_kind(numbers) -> :four_of_a_kind
       is_full_house(numbers) -> :full_house
-      is_flush(suits) -> :flush
       is_three_of_a_kind(numbers) -> :three_of_a_kind
       is_two_pair(numbers) -> :two_pair
       is_pair(numbers) -> :one_pair
@@ -22,7 +27,21 @@ defmodule Game.Hand do
   end
 
   def is_flush(suit) do
-    Enum.count(suit, fn x -> elem(x, 1) end) >= 5
+    Enum.any?(suit, fn x -> elem(x, 1) >= 5 end)
+  end
+
+  def is_straight(numbers, hand) do 
+    numbers = hand
+      |> Enum.into([], fn x -> x.number end)
+      |> Enum.sort
+
+    high_number = List.first(numbers)
+    low_number = if(List.last(numbers) == 1, do: 14, else: List.last(numbers))
+    false
+  end
+
+  def is_straight_flush(hand) do
+    false
   end
 
   def is_four_of_a_kind(number) do
