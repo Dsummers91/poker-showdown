@@ -13,10 +13,11 @@ defmodule Game.Hand do
     {suits, numbers} =
       hand
         |> suit_number_count
+
     cond do
       is_straight_flush(hand) -> :straight_flush
       is_flush(suits) -> :flush
-      is_straight(numbers, hand) -> :straight
+      is_straight(hand) -> :straight
       is_four_of_a_kind(numbers) -> :four_of_a_kind
       is_full_house(numbers) -> :full_house
       is_three_of_a_kind(numbers) -> :three_of_a_kind
@@ -30,29 +31,49 @@ defmodule Game.Hand do
     Enum.any?(suit, fn x -> elem(x, 1) >= 5 end)
   end
 
-  def is_straight(numbers, hand) do 
+  def is_straight(hand) do 
+    if length(hand) < 5, do: false
+    Enum.filter?(suit, fn x -> elem(x, 1) >= 5 end)
+    hand
+      |> Enum.sort_by(&(&1.number), &(&1 >= &2))
+      |> Enum.uniq_by(fn x -> x.number end)
+      |> Enum.any?(fn x -> check_straight(x, hand) end)
+  end
+
+  def is_straight_flush(hand) do 
     if length(hand) < 5, do: false
     hand
-      |> Enum.into([], fn x -> x.number end)
-      |> Enum.sort
-      |> check_straight
+      |> Enum.sort_by(&(&1.number), &(&1 >= &2))
+      |> Enum.uniq_by(fn x -> x.number end)
+      |> Enum.any?(fn x -> check_straight_flush(x, hand) end)
   end
 
-  def check_straight(numbers) do
-    Logger.debug List.first(numbers)
-    high_number = List.first(numbers)
-    low_number = if(List.last(numbers) == 1, do: 14, else: List.last(numbers))
-    Enum.all?(numbers, fn x->
-      Enum.member?(numbers, high_number) &&
-      Enum.member?(numbers, high_number-1) && 
-      Enum.member?(numbers, high_number-2) &&
-      Enum.member?(numbers, 6) &&
-      Enum.member?(numbers, low_number)
-    end)
+  def check_straight(starting_card, cards) do
+    numbers = Enum.map(cards, fn card -> card.number end)
+    low_number = if starting_card.number-4 == 1, do: 14, else: (starting_card.number-4)
+    if low_number <= 1 do 
+      false
+    else 
+      Enum.member?(numbers, starting_card.number) &&
+        Enum.member?(numbers, starting_card.number-1) &&
+          Enum.member?(numbers, starting_card.number-2) &&
+            Enum.member?(numbers, starting_card.number-3) &&
+              Enum.member?(numbers, low_number)
+    end
   end
 
-  def is_straight_flush(hand) do
-    false
+  def check_straight_flush(starting_card, cards) do
+    numbers = Enum.map(cards, fn card -> card.number end)
+    low_number = if starting_card.number-4 == 1, do: 14, else: (starting_card.number-4)
+    if low_number <= 1 do 
+      false
+    else 
+      Enum.member?(numbers, starting_card.number) &&
+        Enum.member?(numbers, starting_card.number-1) &&
+          Enum.member?(numbers, starting_card.number-2) &&
+            Enum.member?(numbers, starting_card.number-3) &&
+              Enum.member?(numbers, low_number)
+    end
   end
 
   def is_four_of_a_kind(number) do
