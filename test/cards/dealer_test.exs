@@ -1,5 +1,6 @@
 defmodule DealerTest do
   use ExUnit.Case
+  require Logger
 	alias Game.Dealer
   alias Game.Player
 	alias Game.Cards
@@ -34,6 +35,12 @@ defmodule DealerTest do
     {hand, deck} = Dealer.deal_to_player(:player3, deck)
     {hand, deck} = Dealer.deal_to_player(:player4, deck)
 		assert(length(hand) == 2)
+		assert(length(deck) == 44)
+  end
+
+  test "should create game" do
+    {players, deck, block} = Dealer.new_game()
+    IO.puts block
 		assert(length(deck) == 44)
   end
 end
