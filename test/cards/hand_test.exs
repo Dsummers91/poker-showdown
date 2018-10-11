@@ -52,7 +52,12 @@ defmodule HandTest do
   end
 
   test "should get straight flush" do
-    hand = [Cards.new_card(9, :diamonds), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(6, :diamonds)]  
+    hand = [Cards.new_card(9, :diamonds), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(5, :diamonds)]  
     assert(Hand.rank(hand) == :straight_flush)
+  end
+
+  test "should get true straight flush" do
+    hand = [Cards.new_card(9, :diamonds), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(5, :diamonds)]  
+    assert(Hand.is_straight_flush(hand) == true)
   end
 end
