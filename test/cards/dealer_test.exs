@@ -43,4 +43,5 @@ defmodule DealerTest do
     IO.puts block
 		assert(length(deck) == 44)
   end
+
 end
