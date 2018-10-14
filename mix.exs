@@ -24,8 +24,7 @@ defmodule Showdown.Mixfile do
   def application do
     [
       mod: {Showdown.Application, []},
-      extra_applications: [:logger, :runtime_tools],
-      applications: [:ethereumex]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -45,6 +44,7 @@ defmodule Showdown.Mixfile do
       {:dialyxir, "1.0.0-rc.3", only: [:dev], runtime: false},
       {:ethereumex, "~> 0.3.4"},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
+      {:exw3, "~> 0.3.0"},
       {:gettext, "~> 0.11"},
       {:phoenix, "~> 1.3.4"},
       {:phoenix_ecto, "~> 3.2"},
