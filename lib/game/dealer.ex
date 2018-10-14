@@ -2,6 +2,8 @@ defmodule Game.Dealer do
   alias Game.Player
   alias Game.Deck
   alias Ethereumex.HttpClient
+  alias ExthCrypto.Hash.Keccak
+
 
   @type player :: :player1 | :player2 | :player3 | :player4
   @type suits :: :suited | :offsuit | :any
@@ -30,8 +32,10 @@ defmodule Game.Dealer do
     {player_2, deck} = deal_to_player(:player2, deck)
     {player_3, deck} = deal_to_player(:player3, deck)
     {player_4, deck} = deal_to_player(:player4, deck)
-    {:ok, result} = HttpClient.eth_get_block_by_number("latest", false, [])
-    IO.puts Map.get(result, "number")
-    {[player_1, player_2, player_3, player_4], deck, Map.get(result, "hash")}
+    {[player_1, player_2, player_3, player_4], deck, get_hash(deck)}
+  end
+
+  defp get_hash(deck) do
+    ExthCrypto.Hash.Keccak.kec(Deck.to_string(deck))
   end
 end

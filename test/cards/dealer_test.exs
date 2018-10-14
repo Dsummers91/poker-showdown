@@ -40,7 +40,6 @@ defmodule DealerTest do
 
   test "should create game" do
     {players, deck, block} = Dealer.new_game()
-    IO.puts block
 		assert(length(deck) == 44)
   end
 
