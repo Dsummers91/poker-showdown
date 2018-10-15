@@ -18,6 +18,6 @@ defmodule Game.Deck do
         %Cards{number: x, suit: :clubs} -> Integer.to_string(x)<>"c"
       end
     end 
-      |> List.to_string
+      |> List.to_string()
   end
 end

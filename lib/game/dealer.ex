@@ -32,10 +32,34 @@ defmodule Game.Dealer do
     {player_2, deck} = deal_to_player(:player2, deck)
     {player_3, deck} = deal_to_player(:player3, deck)
     {player_4, deck} = deal_to_player(:player4, deck)
-    {[player_1, player_2, player_3, player_4], deck, get_hash(deck)}
+    {[player_1, player_2, player_3, player_4], deck, hash_deck(deck)}
   end
 
-  defp get_hash(deck) do
+  def draw_cards(round, block_number, deck) do
+   Game.Blockchain.get_card_position_by_hash(round, block_number)
+    |> select_cards(deck)
+  end
+  
+  defp select_cards(offset, deck, board \\ [], offset_length \\ 1)
+
+  defp select_cards(offset, deck, board, offset_length) when offset_length == 0 do
+    {board, deck}
+  end
+  
+  defp select_cards([offset | tail], deck, board, offset_length) do
+    card = Enum.at(deck, rem(offset, length(deck)))
+    board = List.insert_at(board, -1, card)
+    deck = List.delete(deck, card)
+    select_cards(tail, deck, board, length(tail))
+  end
+
+
+  defp deal_cards() do 
+
+  end
+
+  defp hash_deck(deck) do
     ExthCrypto.Hash.Keccak.kec(Deck.to_string(deck))
   end
+
 end
