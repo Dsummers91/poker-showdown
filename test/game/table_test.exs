@@ -11,7 +11,9 @@ defmodule TableTest do
 
 
   test "should create new table" do
-    {players, deck, _, hash, flop_block, turn_block, river_block} = Table.new_game()
-    assert(flop_block == turn_block - 10) #dumb test
+    table = Table.new_game()
+    assert(length(table.board) == 3)
+    assert(length(table.deck) == 41)
+    assert(table.flop_block == table.turn_block - 10) #dumb test
   end
 end

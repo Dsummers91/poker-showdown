@@ -61,5 +61,9 @@ defmodule Showdown.AccountsTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
+
+    test "sshoudl be able to" do
+
+    end
   end
 end

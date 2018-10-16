@@ -1,18 +1,31 @@
 defmodule Game.Table do
-  defstruct [:players, :board, :round, :deck_hash, :flop_block, :turn_block, :river_block]
+  defstruct [:players, :board, :deck, :round, :deck_hash, :flop_block, :turn_block, :river_block]
 
   alias Game.Deck
   alias Game.Cards
 
   @type round :: :preflop | :flop | :turn | :river
-  @type game_state :: %Game.Table{players: list(Cards.card), board: list(Cards.card), round: round, deck_hash: String.t, flop_block: String.t, turn_block: String.t, river_block: String.t}
+  @type game_state :: %Game.Table{
+                        players: list(list(Cards.card)), 
+                        deck: list(Cards.card), 
+                        board: list(Cards.card), 
+                        round: atom, 
+                        deck_hash: String.t, 
+                        flop_block: String.t, 
+                        turn_block: String.t, 
+                        river_block: String.t}
 
   @spec new_game() :: game_state
   def new_game() do
     {:ok, latest_block_hex} = Ethereumex.HttpClient.eth_block_number
     latest_block = ExW3.to_decimal(latest_block_hex)
-    IO.puts latest_block_hex
+    latest_block = 10000
     {players, deck, hash} = Game.Dealer.new_game()
-    {players, nil, deck, hash, latest_block+10, latest_block+20, latest_block+30} 
+    table = %Game.Table{players: players, board: [], round: :flop, deck: deck, deck_hash: hash, flop_block: latest_block+10, turn_block: latest_block+20, river_block: latest_block+30} 
+    ##WAIT FOR BETS
+    {board, deck} = Game.Dealer.draw_cards(table.round, latest_block+10, table.deck, table.board)
+    table = Map.put(table, :board, board) 
+    table = Map.put(table, :deck, deck) 
+    table
   end
 end
