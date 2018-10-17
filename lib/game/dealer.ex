@@ -36,8 +36,8 @@ defmodule Game.Dealer do
   end
 
   def draw_cards(round, block_number, deck, board \\ []) do
-   Game.Blockchain.get_card_position_by_hash(round, block_number)
-    |> select_cards(deck, board)
+    Game.Blockchain.get_card_position_by_hash(round, block_number)
+      |> select_cards(deck, board)
   end
   
   defp select_cards(offset, deck, board \\ [], offset_length \\ 1)
