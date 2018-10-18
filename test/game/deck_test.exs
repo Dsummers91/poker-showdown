@@ -1,5 +1,7 @@
 defmodule DeckTest do
+  use Showdown.DataCase
   use ExUnit.Case
+
   alias Ethereumex.HttpClient
   alias Game.Deck
   alias Game.Cards
@@ -25,5 +27,10 @@ defmodule DeckTest do
     single_hash_0 = ExthCrypto.Hash.Keccak.kec(Deck.to_string([removed]))
     single_hash_1 = ExthCrypto.Hash.Keccak.kec(Deck.to_string([%Game.Cards{number: 2, suit: :hearts}]))
     assert(single_hash_0 == single_hash_1)
+  end
+
+  test "should get deck" do
+    deck = Showdown.Casino.list_cards()
+    assert(length(deck) == 52)
   end
 end

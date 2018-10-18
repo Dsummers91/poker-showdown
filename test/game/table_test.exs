@@ -1,4 +1,6 @@
 defmodule TableTest do
+  use Showdown.DataCase
+
   use ExUnit.Case
   require Logger
 	alias Game.Dealer

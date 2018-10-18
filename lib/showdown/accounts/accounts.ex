@@ -28,7 +28,7 @@ defmodule Showdown.Accounts do
 
   ## Examples
 
-      iex> get_user!(123)
+      iex> get_user!(124)
       %User{}
 
       iex> get_user!(456)

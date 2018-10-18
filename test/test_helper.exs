@@ -1,4 +1,5 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(Showdown.Repo, :manual)
+Showdown.Seeds.call()
 
+Ecto.Adapters.SQL.Sandbox.mode(Showdown.Repo, :manual)
