@@ -62,7 +62,7 @@ defmodule Showdown.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
 
-    test "sshoudl be able to" do
+    test "should be able to" do
 
     end
   end

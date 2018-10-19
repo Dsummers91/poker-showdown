@@ -19,7 +19,7 @@ defmodule ShowdownWeb.Schema do
   mutation do
     @desc "Create a new user"
     field :create_user, type: :user do 
-      arg :id, non_null(:integer)
+      arg :address, non_null(:string)
       resolve &Resolvers.Account.create_user/3
     end
 

@@ -9,6 +9,9 @@ use Mix.Config
 config :showdown,
   ecto_repos: [Showdown.Repo]
 
+config :showdown,
+  env: Mix.env
+
 # Configures the endpoint
 config :showdown, ShowdownWeb.Endpoint,
   url: [host: "localhost"],

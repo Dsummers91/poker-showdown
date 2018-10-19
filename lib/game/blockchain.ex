@@ -13,7 +13,7 @@ defmodule Game.Blockchain do
       |> Enum.map(fn x -> Enum.sum(Integer.digits(x)) end) 
   end
 
-  def get_card_position_by_hash(_, block_number) do
+  def get_card_position_by_hash(round, block_number) do
     sum = get_block(block_number)
       |> String.slice(2..-1)
       |> Integer.parse(16)

@@ -14,8 +14,37 @@ defmodule TableTest do
 
   test "should create new table" do
     table = Table.new_game()
+    assert(length(table.board) == 0)
+    assert(length(table.deck) == 44)
+    assert(table.starting_block == 1000)
+  end
+
+
+  test "should deal flop" do
+    table = Table.new_game()
+    table = Table.deal_round(table)
     assert(length(table.board) == 3)
     assert(length(table.deck) == 41)
-    assert(table.flop_block == table.turn_block - 10) #dumb test
+  end
+
+  test "should deal turn" do
+    table = Table.new_game()
+    table = Table.deal_round(table)
+    table = Table.deal_round(table)
+    assert(length(table.board) == 4)
+    assert(length(table.deck) == 40)
+  end
+
+  test "should deal river" do
+    table = Table.new_game()
+    assert(table.round == :preflop)
+    table = Table.deal_round(table)
+    assert(table.round == :flop)
+    table = Table.deal_round(table)
+    assert(table.round == :turn)
+    table = Table.deal_round(table)
+    assert(table.round == :river)
+    assert(length(table.board) == 5)
+    assert(length(table.deck) == 39)
   end
 end

@@ -10,6 +10,7 @@ defmodule Game.Dealer do
 
   @type hand :: %{ numbers: list(2..14), suits: suits }
 
+ @spec deal_to_player(player, list(Game.Cards.card)) :: {list(Game.Cards.Card), list(Game.Cards.Card)}
  def deal_to_player(player, deck \\ Deck.new()) do
     player_hand = 
       Player.possible_hands(player)
@@ -23,10 +24,12 @@ defmodule Game.Dealer do
     {player_hand, deck}
  end
 
+ @spec contains_cards(list(Game.Cards.Card), list(Game.Cards.Card)) :: boolean
  def contains_cards(cards, deck) do
     Enum.member?(deck, List.first(cards)) && Enum.member?(deck, List.last(cards))
  end
 
+  @spec new_game() :: {list(list(Game.Cards.Card)), list(Game.Cards.Card), String.t}
   def new_game() do
     {player_1, deck} = deal_to_player(:player1)
     {player_2, deck} = deal_to_player(:player2, deck)
@@ -35,7 +38,9 @@ defmodule Game.Dealer do
     {[player_1, player_2, player_3, player_4], deck, hash_deck(deck)}
   end
 
-  def draw_cards(round, block_number, deck, board \\ []) do
+  def draw_cards(round, block_number, deck, board \\ [])
+
+  def draw_cards(round, block_number, deck, board) do
     Game.Blockchain.get_card_position_by_hash(round, block_number)
       |> select_cards(deck, board)
   end
@@ -51,11 +56,6 @@ defmodule Game.Dealer do
     board = List.insert_at(board, -1, card)
     deck = List.delete(deck, card)
     select_cards(tail, deck, board, length(tail))
-  end
-
-
-  defp deal_cards() do 
-
   end
 
   defp hash_deck(deck) do
