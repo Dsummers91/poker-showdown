@@ -4,11 +4,12 @@ defmodule Showdown.Game do
 
 
   schema "games" do
-    field :players, :integer
     field :board, :integer
     field :round, :string
     field :board_hash, :string
     field :starting_block, :integer
+
+    many_to_many :players, Showdown.Player, join_through: "players_games"
 
     timestamps()
   end
@@ -16,7 +17,7 @@ defmodule Showdown.Game do
   @doc false
   def changeset(card, attrs) do
     card
-    |> cast(attrs, [:players, :board, :round, :board_hash, :starting_block])
-    |> validate_required([:players])
+    |> cast(attrs, [:board, :round, :board_hash, :starting_block])
+    |> validate_required([:round])
   end
 end

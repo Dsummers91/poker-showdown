@@ -10,6 +10,7 @@ defmodule Showdown.Casino do
 
   alias Showdown.Card
   alias Showdown.Game
+  alias Showdown.Player
 
   #### CARDS ####
   def list_cards do
@@ -35,6 +36,11 @@ defmodule Showdown.Casino do
   ##### GAMES ####
   def list_games() do
     Repo.all(Game)
+      |> Repo.preload(:players)
+  end
+
+  def list_players() do
+    Repo.all(Player)
   end
 
   def find_game(id) do
