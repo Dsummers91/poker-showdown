@@ -9,7 +9,7 @@ defmodule Showdown.Game do
     field :board_hash, :string
     field :starting_block, :integer
 
-    many_to_many :players, Showdown.Player, join_through: "players_games"
+    has_many :cards, Showdown.GameCards
 
     timestamps()
   end

@@ -7,6 +7,9 @@ defmodule Showdown.Card do
     field :number, :integer
     field :suit, :string
 
+    has_many :games, Showdown.GameCards
+
+
     timestamps()
   end
 

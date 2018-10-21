@@ -3,11 +3,11 @@ defmodule Showdown.Repo.Migrations.CreateGamesCards do
 
   def change do
     create table(:game_cards) do
-      add :players_games_id, references(:players_games)
+      add :game_id, references(:games)
       add :card_id, references(:cards)
+      add :owner, :string
     end
 
-    create unique_index(:game_cards, [:players_games_id, :card_id])
   end
 
 end
