@@ -6,7 +6,7 @@ defmodule Showdown.GameCards do
   schema "game_cards" do
     belongs_to :game, Showdown.Game
     belongs_to :card, Showdown.Card
-    field :owner, :string
+    belongs_to :owner, Showdown.Owner
   end
 
   @doc false

@@ -11,13 +11,25 @@ defmodule ShowdownWeb.Schema.Games do
   use Absinthe.Schema.Notation
   import_types Absinthe.Type.Custom
 
-  object :players do
+  object :owner do
+    field :name, :string
     field :id, :id
+  end
+
+  object :card do
+    field :card, :card_details
+    field :owner, :owner
+  end
+
+  object :card_details do
+    field :suit, :string
+    field :number, :integer
+    field :owner, :string
   end
 
   object :game do
     field :id, :id
-    field :players, list_of(:players)
+    field :cards, list_of(:card)
     field :round, :string
     field :starting_block, :integer
     field :board_hash, :string

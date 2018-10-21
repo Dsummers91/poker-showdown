@@ -1,9 +1,9 @@
-defmodule Showdown.Repo.Migrations.CreatePlayers do
+defmodule Showdown.Repo.Migrations.CreateOwners do
   use Ecto.Migration
 
   def change do
-    create table(:players) do
-
+    create table(:owners) do
+      add :name, :string
       timestamps()
     end
 

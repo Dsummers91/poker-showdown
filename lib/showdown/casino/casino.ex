@@ -10,7 +10,7 @@ defmodule Showdown.Casino do
 
   alias Showdown.Card
   alias Showdown.Game
-  alias Showdown.Player
+  alias Showdown.Owner
 
   #### CARDS ####
   def list_cards do
@@ -36,19 +36,21 @@ defmodule Showdown.Casino do
   ##### GAMES ####
   def list_games() do
     Repo.all(Game)
-      |> Repo.preload(:players)
+      |> Repo.preload([cards: [:card, :owner]])
   end
 
-  def list_players() do
-    Repo.all(Player)
+  def list_owners() do
+    Repo.all(Owner)
   end
 
   def find_game(id) do
     Repo.get(Game, id)
+      |> Repo.preload([cards: [:card, :owner]])
   end
 
   def list_active_games() do
     Repo.all(from game in Game, where: game.round != "river")
+      |> Repo.preload([cards: [:card, :owner]])
   end
 
 end

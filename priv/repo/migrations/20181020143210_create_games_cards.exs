@@ -5,7 +5,7 @@ defmodule Showdown.Repo.Migrations.CreateGamesCards do
     create table(:game_cards) do
       add :game_id, references(:games)
       add :card_id, references(:cards)
-      add :owner, :string
+      add :owner_id, references(:owners)
     end
 
   end
