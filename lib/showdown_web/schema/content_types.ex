@@ -37,3 +37,4 @@ defmodule ShowdownWeb.Schema.Games do
     field :inserted_at, :naive_datetime
   end
 end
+
