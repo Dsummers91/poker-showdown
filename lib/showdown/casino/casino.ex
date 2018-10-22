@@ -34,6 +34,27 @@ defmodule Showdown.Casino do
   end
 
   ##### GAMES ####
+  def import_game(game) do
+    game
+      |> create_game
+  end
+
+  def update_game(id, game) do
+    game
+     |> Map.take([:round, :starting_block])
+     |> Map.put(:round, Atom.to_string(game.round))
+     |> (&(Showdown.Game.changeset(Repo.get(Showdown.Game, id), &1))).()
+     |> Repo.insert
+  end
+
+  def create_game(game) do
+    game
+     |> Map.take([:round, :starting_block])
+     |> Map.put(:round, Atom.to_string(game.round))
+     |> (&(Showdown.Game.changeset(%Showdown.Game{}, &1))).()
+     |> Repo.insert
+  end
+
   def list_games() do
     Repo.all(Game)
       |> Repo.preload([cards: [:card, :owner]])

@@ -6,7 +6,7 @@ defmodule Showdown.Repo.Migrations.CreateGames do
       add :players, :integer
       add :board, :integer
       add :round, :string
-      add :board_hash, :string
+      add :deck_hash, :string
       add :starting_block, :integer
 
       timestamps()

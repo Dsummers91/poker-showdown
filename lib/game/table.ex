@@ -21,7 +21,7 @@ defmodule Game.Table do
     latest_block = if Application.get_env(:showdown, :env) != :test, do: ExW3.to_decimal(latest_block_hex), else: block
     {players, deck, hash} = Game.Dealer.new_game()
     table = %Game.Table{players: players, board: [], round: :preflop, deck: deck, deck_hash: hash, starting_block: latest_block} 
-    ##WAIT FOR BETS
+    db = Showdown.Casino.create_game(table)
     table
   end
 
@@ -39,8 +39,6 @@ defmodule Game.Table do
   defp check_update(%Game.Table{round: current_round, starting_block: starting_block}) do
     {:ok, latest_block_hex} = Ethereumex.HttpClient.eth_block_number
     latest_block = ExW3.to_decimal(latest_block_hex)
-    IO.inspect latest_block, label: "latest_block"
-    IO.inspect starting_block, label: "starting_block"
     cond do
       latest_block >  starting_block -> :needs_update
       latest_block <= starting_block -> :up_to_date

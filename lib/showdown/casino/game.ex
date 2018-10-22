@@ -6,7 +6,7 @@ defmodule Showdown.Game do
   schema "games" do
     field :board, :integer
     field :round, :string
-    field :board_hash, :string
+    field :deck_hash, :string
     field :starting_block, :integer
 
     has_many :cards, Showdown.GameCards
@@ -17,7 +17,7 @@ defmodule Showdown.Game do
   @doc false
   def changeset(card, attrs) do
     card
-    |> cast(attrs, [:board, :round, :board_hash, :starting_block])
+    |> cast(attrs, [:board, :round, :deck_hash, :starting_block])
     |> validate_required([:round])
   end
 end

@@ -32,7 +32,7 @@ defmodule ShowdownWeb.Schema.Games do
     field :cards, list_of(:card)
     field :round, :string
     field :starting_block, :integer
-    field :board_hash, :string
+    field :deck_hash, :string
     field :board, :integer
     field :inserted_at, :naive_datetime
   end
