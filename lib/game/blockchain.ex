@@ -28,8 +28,20 @@ defmodule Game.Blockchain do
   end
 
   def get_block(block) do
+    get_block(block, :hash)
+  end
+
+  def get_block(block, :hash) do
     "0x"<>List.to_string(Integer.to_charlist(block, 16))
       |> ExW3.block
       |> Map.get("hash")
+  end
+
+  def get_block(block, :number) do
+    List.to_string(Integer.to_charlist(block, 16))
+      |> ExW3.block
+      |> Map.get("hash")
+      |> Integer.parse(16)
+      |> elem(0)
   end
 end

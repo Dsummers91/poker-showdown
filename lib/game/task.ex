@@ -2,29 +2,49 @@ defmodule Game.Server do
   use GenServer
 
   def start_link do
-    GenServer.start_link(__MODULE__, %{})
+    GenServer.start_link(__MODULE__, %{}, name: :game_server)
   end
 
   def init(state) do
-    schedule_work() # Schedule work to be performed on start
+    schedule_work() 
     {:ok, state}
   end
 
-  def handle_info(:work, state) do
-    file_name = "/tmp/test.log"
-    logtext = "rara"
-    File.touch file_name
-    File.chmod!(file_name,0o755)
-    {:ok, file} = File.open file_name, [:append]
-    IO.binwrite file, logtext <> "\n"
-    File.close file
-    {:noreply,file_name}
-    # Do the desired work here
+  def get_messages do
+    GenServer.call(:game_server, :get_messages)
+  end
+
+  def get_messages do
+    GenServer.call(:game_server, :get_messages)
+  end
+
+  def add_message(message) do
+    GenServer.call(:game_server, {:add_message, message})
+  end
+
+  def remove_message do
+    GenServer.call(:game_server, {:remove_message})
+  end
+
+  def handle_call({:remove_message}, _from, [removed | messages]) do
+    {:reply, messages, messages}
+  end
+
+  def handle_call({:add_message, new_message}, _from, messages) do
+    {:reply, [new_message | messages], [new_message | messages]}
+  end
+
+  def handle_call(:get_messages, _from, messages) do
+    {:reply, messages, messages}
+  end
+
+  def handle_info(:update_games, state) do
+    Game.update_games()
     schedule_work() # Reschedule once more
-    {:noreply, state}
+    {:noreply, []}
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :work, 1000) # In 2 hours
+    Process.send_after(self(), :update_games, 2 * 5 * 1000) # In 5 Seconds
   end
 end
