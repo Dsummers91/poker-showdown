@@ -39,7 +39,9 @@ defmodule Game.Server do
   end
 
   def handle_info(:update_games, state) do
-    Game.update_games()
+    Showdown.Casino.list_active_games
+      |> Enum.filter(fn game -> Game.Table.is_updatable(game, 1000) end)
+      |> Enum.map(fn game -> Game.Table.update_game(game) end)
     schedule_work() # Reschedule once more
     {:noreply, []}
   end

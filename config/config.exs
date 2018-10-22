@@ -26,8 +26,8 @@ config :logger, :console,
   metadata: [:user_id]
 
 config :ethereumex,
-  #url: "http://localhost:8545"
-  url: "https://kovan.infura.io/v3/9d8f78bda44d422195fe01c95742aa1a"
+  url: "http://localhost:8545"
+  #url: "https://kovan.infura.io/v3/9d8f78bda44d422195fe01c95742aa1a"
 
 
 # Import environment specific config. This must remain at the bottom

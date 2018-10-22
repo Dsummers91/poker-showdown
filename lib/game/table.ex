@@ -29,14 +29,57 @@ defmodule Game.Table do
     {:ok, 0}
   end
 
-  def update_games([game | games]) do
-    case check_update(game) do
-      :needs_update -> {:ok}
-      _ -> {:error}
-    end
+  def update_game(game) do
+    Showdown.Repo.get(Showdown.Game, 1)
+      |> Ecto.Changeset.change(%{round: "river"})
+      |> Showdown.Repo.update!
   end
-  
-  defp check_update(%Game.Table{round: current_round, starting_block: starting_block}) do
+
+  def convert(%Showdown.Game{} = game) do
+    game
+      |> Map.take([:round, :starting_block, :deck_hash, :cards])
+      |> assign_card_owners()
+      |> (&(struct(Game.Table, &1))).()
+   
+  end
+
+  # allocates cards to owners [board, players1..4] key
+  defp assign_card_owners(game) do
+    game.cards
+        |> Enum.group_by(&(&1.owner.name), (&(&1.card)))
+        |> (&(put_in(game[:players], &1))).()
+  end
+
+  def convert(%Game.Table{} = table) do
+
+  end
+ 
+  def is_updatable(%Game.Table{starting_block: starting_block, board: board}, current_block) do
+    is_ready(board, starting_block, current_block)
+  end
+
+  defp is_ready([], starting_block, current_block) do
+    true
+  end
+
+  defp is_ready(board, starting_block, current_block) when length(board == 3) do
+    true
+  end
+
+  defp is_ready(board, starting_block, current_block) when length(board == 4) do
+    true
+  end
+
+  defp is_ready(board, starting_block, current_block) when length(board == 5) do
+    true
+  end
+
+  defp is_ready(board, starting_block, current_block) do
+    #error.. shouldnt get here
+    false
+  end
+
+  defp check_update(%Showdown.Game{round: current_round, starting_block: starting_block}) do
     {:ok, latest_block_hex} = Ethereumex.HttpClient.eth_block_number
     latest_block = ExW3.to_decimal(latest_block_hex)
     cond do

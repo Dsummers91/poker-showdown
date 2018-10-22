@@ -35,22 +35,30 @@ defmodule Showdown.Casino do
 
   ##### GAMES ####
   def import_game(game) do
-    game
-      |> create_game
+    with {:ok, game_created} <- game |> create_game,
+      {:ok, _ } <- game |> assign_cards_to_game
+    do 
+      {:ok, get_game game.id}
+    else
+      err -> err
+    end
   end
 
-  def update_game(id, game) do
+  def assign_cards_to_game(game) do
+    {:error, "error assigning cards"}
+  end
+
+  def update_game(%Showdown.Game{id: id}, game) do
     game
-     |> Map.take([:round, :starting_block])
-     |> Map.put(:round, Atom.to_string(game.round))
-     |> (&(Showdown.Game.changeset(Repo.get(Showdown.Game, id), &1))).()
-     |> Repo.insert
+     |> Map.take([:round])
+     |> (&(Showdown.Game.changeset(Repo.get(Showdown.Game, id) |> Repo.preload([cards: [:card, :owner]]), &1))).()
+     |> Repo.update
   end
 
   def create_game(game) do
     game
-     |> Map.take([:round, :starting_block])
-     |> Map.put(:round, Atom.to_string(game.round))
+     |> Map.take([:round, :starting_block, :deck_hash, :board])
+     |> Map.put_new(:round, "preflop")
      |> (&(Showdown.Game.changeset(%Showdown.Game{}, &1))).()
      |> Repo.insert
   end
@@ -64,6 +72,14 @@ defmodule Showdown.Casino do
     Repo.all(Owner)
   end
 
+  def get_game(id) do
+    Repo.get(Game, id)
+  end
+
+  def get_game!(id) do
+    Repo.get!(Game, id)
+  end
+
   def find_game(id) do
     Repo.get(Game, id)
       |> Repo.preload([cards: [:card, :owner]])
@@ -74,4 +90,7 @@ defmodule Showdown.Casino do
       |> Repo.preload([cards: [:card, :owner]])
   end
 
+  def change_game(%Game{} = game) do
+    Game.changeset(game, %{})
+  end
 end
