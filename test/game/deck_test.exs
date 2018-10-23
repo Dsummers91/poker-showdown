@@ -40,10 +40,9 @@ defmodule DeckTest do
     gc = gc |> Ecto.Changeset.put_assoc(:game, Showdown.Repo.get(Showdown.Game, game.id))
     gc = gc |> Ecto.Changeset.put_assoc(:owner, Showdown.Repo.get(Showdown.Owner, 1)) |> Showdown.Repo.insert!
 
-    deck = Showdown.Repo.get(Showdown.Game, game.id)
+    game = Showdown.Repo.get(Showdown.Game, game.id)
             |> Repo.preload([cards: [:card, :owner]])
             |> Game.Deck.get_deck
-
-    assert length(deck) == 51
+    assert length(game.deck) == 51
   end
 end
