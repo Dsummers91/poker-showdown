@@ -11,3 +11,4 @@ erl_crash.dump
 *.swo
 *.swp
 
+working/

@@ -7,11 +7,11 @@ defmodule BlockchainTest do
 
   test "should get block hash" do
     block = Game.Blockchain.get_block(1)
-    assert(block == "0x11236ea241f3876c2554b55833843562fb0b50476f7b5cf3416139b03f0b1884")
+    assert block == "0xfc2cff3ad218159d603dfbb080d5addc49f4e100448a577178ca34c756136353"
   end
 
   test "should get correct card positions for flop" do
     position = Game.Blockchain.get_card_position_by_hash(:flop, 1)
-    assert(position == [120, 101, 119])
+    assert(position == '}vm')
   end
 end

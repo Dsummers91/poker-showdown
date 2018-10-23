@@ -15,10 +15,14 @@ defmodule ShowdownWeb.Schema.Games do
     field :name, :string
     field :id, :id
   end
-
+  
   object :card do
     field :card, :card_details
     field :owner, :owner
+  end
+
+  object :players do
+    field :player1, list_of(:card_details)
   end
 
   object :card_details do
@@ -33,7 +37,8 @@ defmodule ShowdownWeb.Schema.Games do
     field :round, :string
     field :starting_block, :integer
     field :deck_hash, :string
-    field :board, :integer
+    field :board, list_of(:card)
+    field :players, :players
     field :inserted_at, :naive_datetime
   end
 end

@@ -48,11 +48,6 @@ defmodule Showdown.CasinoTest do
       assert {:error, %Ecto.Changeset{}} = Casino.create_game(@invalid_attrs)
     end
 
-    test "import_game/1 with valid data updates and assigns card" do
-      game = game_fixture()
-      assert {:ok, game} = Casino.import_game(game) 
-    end
-
     test "update_game/2 with valid data updates the game" do
       game = game_fixture()
       assert {:ok, game} = Casino.update_game(game, @update_attrs)
@@ -80,11 +75,10 @@ defmodule Showdown.CasinoTest do
 
     test "should convert game to table" do
         game = game_fixture()
-        game3 = game
                 |> Repo.preload([cards: [:card, :owner]])
                 |> Game.Table.convert
-
-      assert game3 == 3
+      IO.inspect game, label: "blah"
+      assert length(Map.get(game.players, "player1")) == 1
     end
   end
 end

@@ -21,7 +21,7 @@ defmodule Game.Table do
     latest_block = if Application.get_env(:showdown, :env) != :test, do: ExW3.to_decimal(latest_block_hex), else: block
     {players, deck, hash} = Game.Dealer.new_game()
     table = %Game.Table{players: players, board: [], round: :preflop, deck: deck, deck_hash: hash, starting_block: latest_block} 
-    db = Showdown.Casino.create_game(table)
+    Showdown.Casino.create_game(table)
     table
   end
 
@@ -38,22 +38,23 @@ defmodule Game.Table do
   def convert(%Showdown.Game{} = game) do
     game
       |> Map.take([:round, :starting_block, :deck_hash, :cards])
+      |> Game.Deck.get_deck()
       |> assign_card_owners()
       |> (&(struct(Game.Table, &1))).()
-   
   end
 
   # allocates cards to owners [board, players1..4] key
+  defp assign_card_owners(%{cards: []} = game) do
+    game
+  end
+
   defp assign_card_owners(game) do
     game.cards
         |> Enum.group_by(&(&1.owner.name), (&(&1.card)))
         |> (&(put_in(game[:players], &1))).()
   end
 
-  def convert(%Game.Table{} = table) do
 
-  end
- 
   def is_updatable(%Game.Table{starting_block: starting_block, board: board}, current_block) do
     is_ready(board, starting_block, current_block)
   end
@@ -76,7 +77,7 @@ defmodule Game.Table do
 
   defp is_ready(board, starting_block, current_block) do
     #error.. shouldnt get here
-    false
+    true
   end
 
   defp check_update(%Showdown.Game{round: current_round, starting_block: starting_block}) do
@@ -102,7 +103,11 @@ defmodule Game.Table do
   end
 
   def advance_round(table) do
-    case Map.get(table, :round) do
+    round = case table.round do 
+      x when is_binary(x) -> String.to_existing_atom(x)
+      x -> x
+    end
+    case round do
       :preflop -> :flop
       :flop -> :turn
       :turn -> :river

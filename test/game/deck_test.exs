@@ -33,4 +33,17 @@ defmodule DeckTest do
     deck = Showdown.Casino.list_cards()
     assert(length(deck) == 52)
   end
+
+  test "Should not include cards given" do
+    {:ok, game} = Showdown.Casino.create_game(%{deck_hash: "0x", starting_block: 0})
+    gc = %Showdown.GameCards{} |> Ecto.Changeset.change |> Ecto.Changeset.put_assoc(:card, Showdown.Repo.get(Showdown.Card, 1))
+    gc = gc |> Ecto.Changeset.put_assoc(:game, Showdown.Repo.get(Showdown.Game, game.id))
+    gc = gc |> Ecto.Changeset.put_assoc(:owner, Showdown.Repo.get(Showdown.Owner, 1)) |> Showdown.Repo.insert!
+
+    deck = Showdown.Repo.get(Showdown.Game, game.id)
+            |> Repo.preload([cards: [:card, :owner]])
+            |> Game.Deck.get_deck
+
+    assert length(deck) == 51
+  end
 end

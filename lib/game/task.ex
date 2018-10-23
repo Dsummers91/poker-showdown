@@ -40,13 +40,14 @@ defmodule Game.Server do
 
   def handle_info(:update_games, state) do
     Showdown.Casino.list_active_games
+      |> Enum.map(fn game -> Game.Table.convert(game) end)
       |> Enum.filter(fn game -> Game.Table.is_updatable(game, 1000) end)
-      |> Enum.map(fn game -> Game.Table.update_game(game) end)
+      |> Enum.map(fn game -> Game.Table.deal_round(game) end)
     schedule_work() # Reschedule once more
     {:noreply, []}
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :update_games, 2 * 5 * 1000) # In 5 Seconds
+    Process.send_after(self(), :update_games, 2 * 1000) # In 5 Seconds
   end
 end

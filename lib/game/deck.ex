@@ -20,4 +20,13 @@ defmodule Game.Deck do
     end 
       |> List.to_string()
   end
+
+  def get_deck(game) do
+    cards = game.cards
+      |> Enum.map(fn card -> %Cards{number: card.card.number, suit: String.to_existing_atom(card.card.suit)} end)
+    deck = new()
+      |> Enum.reject(fn card -> Enum.member?(cards, card) end)
+
+    Map.put(game, :deck, deck)
+  end
 end

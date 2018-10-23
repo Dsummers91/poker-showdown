@@ -41,6 +41,10 @@ defmodule Game.Dealer do
   def draw_cards(round, block_number, deck, board \\ [])
 
   def draw_cards(round, block_number, deck, board) do
+    board = case board do
+      nil -> []
+      _ -> board
+    end
     Game.Blockchain.get_card_position_by_hash(round, block_number)
       |> select_cards(deck, board)
   end

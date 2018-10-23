@@ -46,9 +46,9 @@ defmodule DealerTest do
   test "should draw cards" do
     deck = Deck.new()
     {cards, deck} = Dealer.draw_cards(:flop, 1, deck)
-    assert(cards == [%Game.Cards{number: 6, suit: :clubs}, %Game.Cards{number: 13, suit: :clubs}, %Game.Cards{number: 5, suit: :spades}])
-    {cards, deck} = Dealer.draw_cards(:turn, 10510, deck)
-    assert(cards == [%Game.Cards{number: 11, suit: :hearts}])
+    assert cards == [%Game.Cards{suit: :clubs, number: 10}, %Game.Cards{suit: :clubs, number: 5}, %Game.Cards{number: 11, suit: :hearts}]
+    {cards, deck} = Dealer.draw_cards(:turn, 11, deck)
+    assert(cards == [%Game.Cards{number: 14, suit: :clubs}])
   end
 
 end

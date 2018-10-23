@@ -34,16 +34,6 @@ defmodule Showdown.Casino do
   end
 
   ##### GAMES ####
-  def import_game(game) do
-    with {:ok, game_created} <- game |> create_game,
-      {:ok, _ } <- game |> assign_cards_to_game
-    do 
-      {:ok, get_game game.id}
-    else
-      err -> err
-    end
-  end
-
   def assign_cards_to_game(game) do
     {:error, "error assigning cards"}
   end
