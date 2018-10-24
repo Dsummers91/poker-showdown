@@ -6,7 +6,8 @@ defmodule Game.Server do
   end
 
   def init(state) do
-    schedule_work() 
+    spawn(fn -> create_games() end)
+    update_games() 
     {:ok, state}
   end
 
@@ -38,16 +39,28 @@ defmodule Game.Server do
     {:reply, messages, messages}
   end
 
-  def handle_info(:update_games, state) do
-    Showdown.Casino.list_active_games
-      |> Enum.map(fn game -> Game.Table.convert(game) end)
-      |> Enum.filter(fn game -> Game.Table.is_updatable(game, 1000) end)
-      |> Enum.map(fn game -> Game.Table.deal_round(game) end)
-    schedule_work() # Reschedule once more
+  def handle_info(:new_game, state) do
+    Game.Table.new_game()
+    create_games()
     {:noreply, []}
   end
 
-  defp schedule_work() do
-    Process.send_after(self(), :update_games, 2 * 1000) # In 5 Seconds
+  def handle_info(:update_games, state) do
+    {:ok, latest_block_hex} = Ethereumex.HttpClient.eth_block_number
+    latest_block = ExW3.to_decimal(latest_block_hex)
+    Showdown.Casino.list_active_games
+    |> Enum.map(fn game -> Game.Table.convert(game) end)
+    |> Enum.filter(fn game -> Game.Table.is_updatable(game, latest_block) end)
+    |> Enum.map(fn game -> Game.Table.deal_round(game) end)
+    update_games() # Reschedule once more
+    {:noreply, []}
+  end
+
+  defp update_games() do
+    Process.send_after(self(), :update_games, 3 * 1000) # Every 3 Seconds
+  end
+
+  defp create_games() do
+    Process.send_after(self(), :new_game, 5 * 1000) # Every 5 minutes
   end
 end

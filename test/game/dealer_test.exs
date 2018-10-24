@@ -43,6 +43,7 @@ defmodule DealerTest do
 		assert(length(deck) == 44)
   end
 
+  @tag :skip
   test "should draw cards" do
     deck = Deck.new()
     {cards, deck} = Dealer.draw_cards(:flop, 1, deck)

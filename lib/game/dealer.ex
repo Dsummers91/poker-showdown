@@ -38,32 +38,42 @@ defmodule Game.Dealer do
     {[player_1, player_2, player_3, player_4], deck, hash_deck(deck)}
   end
 
-  def draw_cards(round, block_number, deck, board \\ [])
+  def draw_cards(game_id, round, block_number, deck, board \\ [])
 
-  def draw_cards(round, block_number, deck, board) do
+  def draw_cards(game_id, :end, block_number, deck, board) do
+    {board, deck}
+  end
+
+  def draw_cards(game_id, round, starting_block, deck, board) do
+    block_number = case round do
+      :flop -> starting_block + 4
+      :turn -> starting_block + 8
+      :river -> starting_block + 12
+    end
     board = case board do
       nil -> []
       _ -> board
     end
     Game.Blockchain.get_card_position_by_hash(round, block_number)
-      |> select_cards(deck, board)
+      |> select_cards(game_id, deck, board)
   end
   
-  defp select_cards(offset, deck, board \\ [], offset_length \\ 1)
+  defp select_cards(offset, game_id, deck, board \\ [], offset_length \\ 1)
 
-  defp select_cards(offset, deck, board, offset_length) when offset_length == 0 do
+  defp select_cards(offset, game_id, deck, board, offset_length) when offset_length == 0 do
     {board, deck}
   end
   
-  defp select_cards([offset | tail], deck, board, offset_length) do
+  defp select_cards([offset | tail], game_id, deck, board, offset_length) do
     card = Enum.at(deck, rem(offset, length(deck)))
     board = List.insert_at(board, -1, card)
     deck = List.delete(deck, card)
-    select_cards(tail, deck, board, length(tail))
+    card = Showdown.Casino.assign_cards(game_id, card, "board")
+    select_cards(tail, game_id, deck, board, length(tail))
   end
 
   defp hash_deck(deck) do
-    ExthCrypto.Hash.Keccak.kec(Deck.to_string(deck))
+    ExW3.keccak256(Deck.to_string(deck))
   end
 
 end

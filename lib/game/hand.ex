@@ -9,6 +9,12 @@ defmodule Game.Hand do
 
   @type hand :: %{ numbers: list(2..14), suits: suits }
   
+  @hands [:straight_flush, :flush, :straight, :four_of_a_kind, :full_house, :three_of_a_kind, :two_pair, :one_pair, :high_card]
+  
+  def hand_values() do
+    @hand
+  end
+
   def rank(hand) do
     {suits, numbers} =
       hand
@@ -25,6 +31,16 @@ defmodule Game.Hand do
       is_pair(numbers) -> :one_pair
       true -> :high_card
     end
+  end
+  
+  def compare_hands(%Game.Table{players: players}) do
+    players
+      |> Map.pop(:board)
+      |> (&(Enum.map(elem(&1, 1), fn player -> [elem(&1,0) |  elem(player, 1)] end))).()
+      |> Enum.map(fn x -> List.flatten(x) end)
+      |> IO.inspect
+      |> Enum.map(fn x -> rank(x) end)
+      |> IO.inspect
   end
 
   def is_flush(suit) do

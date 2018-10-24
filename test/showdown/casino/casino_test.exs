@@ -77,8 +77,8 @@ defmodule Showdown.CasinoTest do
         game = game_fixture()
                 |> Repo.preload([cards: [:card, :owner]])
                 |> Game.Table.convert
-      IO.inspect game, label: "blah"
-      assert length(Map.get(game.players, "player1")) == 1
+      assert Map.has_key?(game, :id)
+      assert length(Map.get(game.players, :player1)) == 1
     end
   end
 end

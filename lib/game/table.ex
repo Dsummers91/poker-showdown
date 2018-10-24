@@ -1,13 +1,15 @@
 defmodule Game.Table do
-  defstruct [:players, :board, :deck, :round, :deck_hash, :starting_block]
+
+  defstruct [:id, :players, :board, :deck, :round, :deck_hash, :starting_block]
 
   alias Game.Deck
   alias Game.Cards
 
   @type round :: :preflop | :flop | :turn | :river
-
   
+  @type players :: %{"player1": list(Cards.card)}
   @type game_state :: %Game.Table{
+                        id: integer,
                         players: list(list(Cards.card)), 
                         deck: list(Cards.card), 
                         board: list(Cards.card), 
@@ -21,26 +23,19 @@ defmodule Game.Table do
     latest_block = if Application.get_env(:showdown, :env) != :test, do: ExW3.to_decimal(latest_block_hex), else: block
     {players, deck, hash} = Game.Dealer.new_game()
     table = %Game.Table{players: players, board: [], round: :preflop, deck: deck, deck_hash: hash, starting_block: latest_block} 
-    Showdown.Casino.create_game(table)
+    {:ok, table} = Showdown.Casino.create_game(table)
     table
-  end
-
-  def update_games([]) do
-    {:ok, 0}
-  end
-
-  def update_game(game) do
-    Showdown.Repo.get(Showdown.Game, 1)
-      |> Ecto.Changeset.change(%{round: "river"})
-      |> Showdown.Repo.update!
+      |> Showdown.Repo.preload([cards: [:card, :owner]])
+      |> convert
   end
 
   def convert(%Showdown.Game{} = game) do
     game
-      |> Map.take([:round, :starting_block, :deck_hash, :cards])
+      |> Map.take([:id, :round, :starting_block, :deck_hash, :cards])
       |> Game.Deck.get_deck()
       |> assign_card_owners()
       |> (&(struct(Game.Table, &1))).()
+      |> Map.update!(:round, &(String.to_existing_atom(&1)))
   end
 
   # allocates cards to owners [board, players1..4] key
@@ -50,34 +45,34 @@ defmodule Game.Table do
 
   defp assign_card_owners(game) do
     game.cards
-        |> Enum.group_by(&(&1.owner.name), (&(&1.card)))
+        |> Enum.group_by(&(String.to_existing_atom(&1.owner.name)), (&(&1.card)))
         |> (&(put_in(game[:players], &1))).()
   end
 
 
-  def is_updatable(%Game.Table{starting_block: starting_block, board: board}, current_block) do
-    is_ready(board, starting_block, current_block)
+  def is_updatable(%Game.Table{starting_block: starting_block, round: round}, current_block) do
+    is_ready(round, starting_block, current_block)
   end
 
-  defp is_ready([], starting_block, current_block) do
-    true
+  defp is_ready(:preflop, starting_block, current_block) do
+    current_block >= starting_block + 5
   end
 
-  defp is_ready(board, starting_block, current_block) when length(board == 3) do
-    true
+  defp is_ready(:flop, starting_block, current_block) do
+    current_block >= starting_block + 9
   end
 
-  defp is_ready(board, starting_block, current_block) when length(board == 4) do
-    true
+  defp is_ready(:turn, starting_block, current_block) do
+    current_block >= starting_block + 13
   end
-
-  defp is_ready(board, starting_block, current_block) when length(board == 5) do
-    true
+  
+  # THIS IS ESSENTIALLY "RECENTLY FINISHED"
+  defp is_ready(:river, starting_block, current_block) do
+    current_block >= starting_block + 20
   end
 
   defp is_ready(board, starting_block, current_block) do
-    #error.. shouldnt get here
-    true
+    false
   end
 
   defp check_update(%Showdown.Game{round: current_round, starting_block: starting_block}) do
@@ -90,16 +85,22 @@ defmodule Game.Table do
   end
 
   def deal_round(table) do
-    #Get Table from DB
+    table = Showdown.Casino.get_game(table.id)
+              |> Showdown.Repo.preload([cards: [:card, :owner]])
+              |> convert
+
     table = Map.put(table, :round, advance_round(table))
-    {board, deck} = Game.Dealer.draw_cards(table.round, table.starting_block+10, table.deck, table.board)
+    table
+      |> Map.update!(:round, &(to_string(&1)))
+      |> (&(Showdown.Casino.update_game(%Showdown.Game{id: table.id},&1))).()
+    {board, deck} = Game.Dealer.draw_cards(table.id, table.round, table.starting_block, table.deck, Map.get(table.players, :board))
     table = Map.put(table, :board, board) 
     table = Map.put(table, :deck, deck) 
     table
   end
 
-  def end_game() do
-    
+  def end_game(table) do
+    Game.Hand.compare_hands(table)
   end
 
   def advance_round(table) do
@@ -107,12 +108,13 @@ defmodule Game.Table do
       x when is_binary(x) -> String.to_existing_atom(x)
       x -> x
     end
-    case round do
+    round = case round do
       :preflop -> :flop
       :flop -> :turn
       :turn -> :river
       :river -> :end
-      _ -> :preflop
     end
+    if round == :end, do: end_game(table)
+    round
   end
 end
