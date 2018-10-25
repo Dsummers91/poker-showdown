@@ -1,4 +1,4 @@
-defmodule Showdown.Accounts.User do
+defmodule Showdown.User do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -13,7 +13,7 @@ defmodule Showdown.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:address])
-    |> validate_required([:address])
+    |> cast(attrs, [:address, :balance])
+    |> validate_required([:address, :balance])
   end
 end

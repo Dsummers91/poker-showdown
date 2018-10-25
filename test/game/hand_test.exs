@@ -60,4 +60,20 @@ defmodule HandTest do
     hand = [Cards.new_card(9, :diamonds), Cards.new_card(8, :diamonds), Cards.new_card(7, :diamonds), Cards.new_card(6, :diamonds), Cards.new_card(5, :diamonds)]  
     assert(Hand.is_straight_flush(hand) == true)
   end
+
+  test "should get correct index" do
+    Hand.get_index(:straight_flush) == 0
+  end
+
+  test "should get two pair" do
+    hand = [  Cards.new_card(11, :diamonds), 
+              Cards.new_card(8, :clubs), 
+              Cards.new_card(2, :hearts), 
+              Cards.new_card(12, :diamonds), 
+              Cards.new_card(13, :spades), 
+              Cards.new_card(12, :hearts), 
+              Cards.new_card(13, :diamonds)]  
+    {suits, numbers} = hand |> Hand.suit_number_count
+    assert(Hand.is_two_pair(numbers) == true)
+  end
 end

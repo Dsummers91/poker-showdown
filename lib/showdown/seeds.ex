@@ -13,13 +13,6 @@ defmodule Showdown.Seeds do
         Showdown.Repo.insert!(%Showdown.Owner{name: to_string(owner)})
       end
     end
-
-  #  %{starting_block: 1000, deck_hash: "0x", round: "flop"}
-   #  |> Map.take([:round, :starting_block, :deck_hash])
-    # |> Map.put_new(:round, "preflop")
-     #|> (&(Showdown.Game.changeset(%Showdown.Game{}, &1))).()
-     #|> Showdown.Repo.insert
-
   end
 
 end

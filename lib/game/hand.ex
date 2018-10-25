@@ -9,10 +9,10 @@ defmodule Game.Hand do
 
   @type hand :: %{ numbers: list(2..14), suits: suits }
   
-  @hands [:straight_flush, :flush, :straight, :four_of_a_kind, :full_house, :three_of_a_kind, :two_pair, :one_pair, :high_card]
-  
-  def hand_values() do
-    @hand
+  @ranks [:straight_flush, :flush, :straight, :four_of_a_kind, :full_house, :three_of_a_kind, :two_pair, :one_pair, :high_card]
+
+  def get_index(rank) do
+   Enum.find_index(@ranks, fn x -> x == rank end)
   end
 
   def rank(hand) do
@@ -36,11 +36,10 @@ defmodule Game.Hand do
   def compare_hands(%Game.Table{players: players}) do
     players
       |> Map.pop(:board)
-      |> (&(Enum.map(elem(&1, 1), fn player -> [elem(&1,0) |  elem(player, 1)] end))).()
-      |> Enum.map(fn x -> List.flatten(x) end)
-      |> IO.inspect
-      |> Enum.map(fn x -> rank(x) end)
-      |> IO.inspect
+      |> (&(Enum.map(elem(&1, 1), fn player -> {elem(player, 0), get_index(rank(List.flatten([elem(&1,0) |  elem(player, 1)])))} end))).()
+      |> List.keysort(1)
+      |> List.first
+      |> elem(0)
   end
 
   def is_flush(suit) do
@@ -103,7 +102,7 @@ defmodule Game.Hand do
   end
 
   def is_two_pair(number) do
-    Enum.count(number, fn x -> elem(x, 1) == 2 end) > 2
+    Enum.count(number, fn x -> elem(x, 1) == 2 end) >= 2
   end
 
   def is_pair(number) do

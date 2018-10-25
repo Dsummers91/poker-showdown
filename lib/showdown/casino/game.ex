@@ -8,6 +8,7 @@ defmodule Showdown.Game do
     field :deck_hash, :string
     field :starting_block, :integer
 
+    has_many :posts, Showdown.Owner
     has_many :cards, Showdown.GameCards
 
     timestamps()

@@ -6,7 +6,7 @@ defmodule Showdown.AccountsTest do
   describe "users" do
     alias Showdown.Accounts.User
 
-    @valid_attrs %{address: "some address"}
+    @valid_attrs %{address: "some address", balance: 10000}
     @update_attrs %{address: "some updated address"}
     @invalid_attrs %{address: nil}
 
