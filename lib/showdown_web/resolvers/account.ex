@@ -11,4 +11,8 @@ defmodule ShowdownWeb.Resolvers.Account do
   def update_user(_parent, args, _resolution) do
     Showdown.Accounts.update_user(args)
   end
+
+  def make_bet(_parent, args, _resolution) do
+    Showdown.Accounts.make_bet(args)
+  end
 end

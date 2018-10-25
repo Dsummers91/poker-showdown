@@ -73,6 +73,10 @@ defmodule Showdown.Accounts do
     |> Repo.update()
   end
 
+  def make_bet(%{address: adress, bet: bet_params}) do
+    {:ok, List.first(Repo.all(User))}
+  end
+
   @doc """
   Deletes a User.
 

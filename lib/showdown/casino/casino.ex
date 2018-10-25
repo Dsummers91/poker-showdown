@@ -126,4 +126,22 @@ defmodule Showdown.Casino do
   def change_game(%Showdown.Game{} = game) do
     Showdown.Game.changeset(game, %{})
   end
+
+
+
+  ### GAME BETS
+  def add_bet(game, player_name, user_address, bet_amount) do
+    player = Repo.get_by(Showdown.Owner, %{name: player_name})
+    user = Repo.get_by(Showdown.Accounts.User, %{address: user_address})
+
+    %Showdown.Casino.GameBets{}
+      |> Ecto.Changeset.change()
+      |> Ecto.Changeset.put_assoc(:player, player)
+      |> Ecto.Changeset.put_assoc(:user, user)
+      |> Ecto.Changeset.put_assoc(:game, game)
+      |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
+      |> Repo.insert
+
+
+  end
 end

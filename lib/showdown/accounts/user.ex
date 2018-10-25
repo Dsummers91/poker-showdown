@@ -13,7 +13,7 @@ defmodule Showdown.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:address])
+    |> cast(attrs, [:address, :balance])
     |> validate_required([:address])
   end
 end

@@ -6,6 +6,8 @@ defmodule Showdown.Repo.Migrations.AddWinnerField do
       add :game_id, references(:games)
       add :winner_id, references(:owners)
       add :prize_pool, :integer
+
+      timestamps()
     end
   end
 end

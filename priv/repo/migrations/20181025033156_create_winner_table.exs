@@ -7,6 +7,8 @@ defmodule Showdown.Repo.Migrations.AddBetField do
       add :player_id, references(:owners)
       add :user_id, references(:users)
       add :bet_amount, :integer
+
+      timestamps()
     end
   end
 end

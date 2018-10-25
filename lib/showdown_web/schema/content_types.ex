@@ -1,10 +1,11 @@
 defmodule ShowdownWeb.Schema.Accounts do
-    use Absinthe.Schema.Notation
+  use Absinthe.Schema.Notation
 
-    object :user do
-          field :id, :id
-          field :address, :string
-        end
+  object :user do
+    field :id, :id
+    field :address, :string
+    field :balance, :integer
+  end
 end
 
 defmodule ShowdownWeb.Schema.Games do
@@ -15,7 +16,7 @@ defmodule ShowdownWeb.Schema.Games do
     field :name, :string
     field :id, :id
   end
-  
+
   object :card do
     field :card, :card_details
     field :owner, :owner

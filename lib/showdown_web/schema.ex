@@ -9,6 +9,13 @@ defmodule ShowdownWeb.Schema do
     field :address, non_null(:string)
   end
 
+  input_object :signed_bet_tx do
+    field :game_id, non_null(:id)
+    field :winner, non_null(:string)
+    field :amount, non_null(:string)
+    field :signed_tx, non_null(:string)
+    #field :none, non_null(:integer)
+  end
 
   query do
     @desc "Get all users"
@@ -47,7 +54,12 @@ defmodule ShowdownWeb.Schema do
       resolve &Resolvers.Account.update_user/3
     end
 
-
+    @desc "Creates a bet for the user"
+    field :make_bet, type: :user do
+      arg :address, :string
+      arg :bet, :signed_bet_tx
+      resolve &Resolvers.Account.make_bet/3
+    end
   end
 
 end
