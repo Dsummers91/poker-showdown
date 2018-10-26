@@ -62,4 +62,14 @@ defmodule ShowdownWeb.Schema do
     end
   end
 
+  subscription do
+    field :game_created, :game do
+
+      config fn _, _ ->
+        {:ok, topic: "game"}
+      end
+    end
+  end
 end
+
+

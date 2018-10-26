@@ -24,9 +24,11 @@ defmodule Game.Table do
     {players, deck, hash} = Game.Dealer.new_game()
     table = %Game.Table{players: players, board: [], round: :preflop, deck: deck, deck_hash: hash, starting_block: latest_block} 
     {:ok, table} = Showdown.Casino.create_game(table)
-    table
+    table = table
       |> Showdown.Repo.preload([cards: [:card, :owner]])
       |> convert
+    Absinthe.Subscription.publish(ShowdownWeb.Endpoint, table, [game_created: "game"])
+    table
   end
 
   def convert(%Showdown.Game{} = game) do
