@@ -126,10 +126,20 @@ defmodule Showdown.Casino do
   def change_game(%Showdown.Game{} = game) do
     Showdown.Game.changeset(game, %{})
   end
-
-
+  
 
   ### GAME BETS
+  def total_bets(game_id) do
+    query = from gb in Showdown.Casino.GameBets, 
+              where: gb.game_id == ^game_id, 
+              join: p in Showdown.Owner, on: gb.player_id == p.id,
+              group_by: p.name,
+              select: {p.name, sum(gb.bet_amount)}
+    Repo.all(query)
+      |> Enum.into(%{})
+
+  end
+
   def add_bet(game, player_name, user_address, bet_amount) do
     player = Repo.get_by(Showdown.Owner, %{name: player_name})
     user = Repo.get_by(Showdown.Accounts.User, %{address: user_address})
