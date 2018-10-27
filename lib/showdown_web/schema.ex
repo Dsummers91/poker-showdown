@@ -14,7 +14,7 @@ defmodule ShowdownWeb.Schema do
     field :winner, non_null(:string)
     field :amount, non_null(:string)
     field :signed_tx, non_null(:string)
-    #field :none, non_null(:integer)
+    #field :nonce, non_null(:integer)
   end
 
   query do
@@ -64,12 +64,27 @@ defmodule ShowdownWeb.Schema do
 
   subscription do
     field :game_created, :game do
-
       config fn _, _ ->
         {:ok, topic: "game"}
       end
     end
+
+    field :game_updated, :game do
+      arg :game_id, non_null(:id)
+      config fn args,_ ->
+        {:ok, topic: args.game_id}
+      end
+    end
+
+    field :notify_winner, :game do
+      arg :game_id, non_null(:id)
+      arg :player_id, non_null(:id)
+      config fn args,_ ->
+        {:ok, topic: {args.game_id, args.player_id}}
+      end
+    end
+
   end
 end
 
-
+2

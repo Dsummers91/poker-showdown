@@ -13,10 +13,12 @@ defmodule Showdown.Application do
       # Start the endpoint when the application starts
       supervisor(ShowdownWeb.Endpoint, []),
       supervisor(Absinthe.Subscription, [ShowdownWeb.Endpoint]), # add this line
+
+
       supervisor(Game.Server, []),
-      supervisor(Game.GameCreator, [])
-      # Start your own worker by calling: Showdown.Worker.start_link(arg1, arg2, arg3)
-      # worker(Showdown.Worker, [arg1, arg2, arg3]),
+      #TODO: make this inside of scheduler instead of genserver
+      supervisor(Game.GameCreator, []),
+      worker(Showdown.Scheduler, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

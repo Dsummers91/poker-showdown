@@ -1,6 +1,6 @@
 /// @title Token Payment Channel
 
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
 
 contract Token {
   function transfer(address, uint256) public returns (bool) {}
