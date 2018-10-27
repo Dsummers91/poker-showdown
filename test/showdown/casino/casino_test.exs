@@ -61,6 +61,17 @@ defmodule Showdown.CasinoTest do
       assert game == Casino.get_game!(game.id)
     end
 
+    test "insert_winner/1 with valid data" do
+      game = game_fixture()
+      winner = game
+                |> Showdown.Repo.preload([:winner, cards: [:card, :owner]])
+                |> Game.Table.convert
+                |> Showdown.Casino.insert_winner("player1")
+
+      game = Showdown.Casino.get_game!(game.id) |> Repo.preload([:winner])
+      assert Map.get(game.winner, :winner_id) == 1
+    end
+
     @tag :skip
     test "delete_game/1 deletes the game" do
       game = game_fixture()

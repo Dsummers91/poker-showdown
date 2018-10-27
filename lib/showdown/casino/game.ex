@@ -8,6 +8,7 @@ defmodule Showdown.Game do
     field :deck_hash, :string
     field :starting_block, :integer
 
+    has_one :winner, Showdown.Casino.GameWinners
     has_many :bets, Showdown.Casino.GameBets
     has_many :cards, Showdown.GameCards
 

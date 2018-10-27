@@ -140,6 +140,22 @@ defmodule Showdown.Casino do
 
   end
 
+  def insert_winner(%Game.Table{id: id}, player) do
+    player = case is_binary(player) do
+      true -> player
+      false -> to_string(player)
+    end
+
+    winner = Repo.get_by(Showdown.Owner, %{name: player})
+    game = Repo.get(Showdown.Game, id)
+
+    %Showdown.Casino.GameWinners{}
+      |> Ecto.Changeset.change()
+      |> Ecto.Changeset.put_assoc(:winner, winner)
+      |> Ecto.Changeset.put_assoc(:game, game)
+      |> Repo.insert!
+  end
+
   def add_bet(game, player_name, user_address, bet_amount) do
     player = Repo.get_by(Showdown.Owner, %{name: player_name})
     user = Repo.get_by(Showdown.Accounts.User, %{address: user_address})
@@ -151,7 +167,5 @@ defmodule Showdown.Casino do
       |> Ecto.Changeset.put_assoc(:game, game)
       |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
       |> Repo.insert
-
-
   end
 end

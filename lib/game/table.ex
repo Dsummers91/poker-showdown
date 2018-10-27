@@ -1,6 +1,6 @@
 defmodule Game.Table do
 
-  defstruct [:id, :players, :board, :deck, :round, :deck_hash, :starting_block]
+  defstruct [:id, :players, :board, :deck, :round, :deck_hash, :starting_block, :winner]
 
   alias Game.Deck
   alias Game.Cards
@@ -14,6 +14,7 @@ defmodule Game.Table do
                         deck: list(Cards.card), 
                         board: list(Cards.card), 
                         round: atom, 
+                        winner: atom,
                         deck_hash: String.t, 
                         starting_block: integer}
 
@@ -68,7 +69,6 @@ defmodule Game.Table do
     current_block >= starting_block + 13
   end
   
-  # THIS IS ESSENTIALLY "RECENTLY FINISHED"
   defp is_ready(:river, starting_block, current_block) do
     current_block >= starting_block + 20
   end
@@ -102,7 +102,8 @@ defmodule Game.Table do
   end
 
   def end_game(table) do
-    Game.Hand.compare_hands(table)
+    winner = Game.Hand.compare_hands(table)
+    Showdown.Casino.insert_winner(table, winner)
   end
 
   def advance_round(table) do
@@ -115,8 +116,9 @@ defmodule Game.Table do
       :flop -> :turn
       :turn -> :river
       :river -> :end
+      :end -> :end
     end
-    if round == :end, do: end_game(table)
+    if round == :river, do: end_game(table)
     round
   end
 end
