@@ -15,5 +15,6 @@ defmodule Showdown.Accounts.User do
     user
     |> cast(attrs, [:address, :balance])
     |> validate_required([:address])
+    |> validate_number(:balance, greater_than_or_equal_to: 0)
   end
 end

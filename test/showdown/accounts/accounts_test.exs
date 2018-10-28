@@ -39,6 +39,19 @@ defmodule Showdown.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
 
+    test "decrease_balance/2 with valid data decreases balance" do
+     {:ok,  user} = user_fixture()
+        |> Showdown.Casino.decrease_balance(100)
+      assert user.balance  == 9900
+    end
+
+    test "decrease_balance/2 with invalid data decreases balance" do
+     {err,  user} = user_fixture()
+        |> Showdown.Casino.decrease_balance(11000)
+      IO.inspect user
+      assert err == :error
+    end
+
     test "update_user/1 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, user} = Accounts.update_user(%{id: user.id, user: @update_attrs})

@@ -7,7 +7,7 @@ defmodule Showdown.Casino do
 
   import Ecto.Query, warn: false
   alias Showdown.Repo
-
+  alias Showdown.Accounts.User
   alias Showdown.Card
   alias Showdown.Owner
 
@@ -168,18 +168,48 @@ defmodule Showdown.Casino do
   def add_bet(%Showdown.Game{round: "preflop"} = game, player_name, user_address, bet_amount) do
     player = Repo.get_by(Showdown.Owner, %{name: player_name})
     user = Repo.get_by(Showdown.Accounts.User, %{address: user_address})
-
-    %Showdown.Casino.GameBets{}
-      |> Ecto.Changeset.change()
-      |> Ecto.Changeset.put_assoc(:player, player)
-      |> Ecto.Changeset.put_assoc(:user, user)
-      |> Ecto.Changeset.put_assoc(:game, game)
-      |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
-      |> Repo.insert
+    with {:ok, _} <- decrease_balance(user, bet_amount) do
+        %Showdown.Casino.GameBets{}
+          |> Ecto.Changeset.change()
+          |> Ecto.Changeset.put_assoc(:player, player)
+          |> Ecto.Changeset.put_assoc(:user, user)
+          |> Ecto.Changeset.put_assoc(:game, game)
+          |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
+          |> Repo.insert
+    else
+      err -> err
+    end
   end
 
   def add_bet(game, player_name, user_address, bet_amount) do
     {:error, "Only able to bet during preflop phase"} 
   end
 
+  @spec increase_balance(Showdown.Accounts.User, integer) :: {atom, Showdown.Accounts.User}
+   def increase_balance(%Showdown.Accounts.User{address: address, balance: balance}, amount) do
+    player = from(u in User, where: u.address == ^address)
+      |> Repo.one()
+
+    if player do
+      player
+        |> User.changeset(%{balance: player.balance - amount})
+        |> Repo.update
+    else
+      {:error, "player does not exist"}
+    end
+  end 
+  
+  @spec decrease_balance(Showdown.Accounts.User, integer) :: {atom, Showdown.Accounts.User}
+  def decrease_balance(%Showdown.Accounts.User{id: id, balance: balance}, amount) do
+    player = from(u in User, where: u.id == ^id, lock: "FOR UPDATE")
+      |> Repo.one()
+
+    if player do
+      player
+        |> User.changeset(%{balance: player.balance - amount})
+        |> Repo.update
+    else
+      {:error, "player does not exist"}
+    end
+  end
 end

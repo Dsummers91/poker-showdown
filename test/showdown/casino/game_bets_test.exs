@@ -48,7 +48,7 @@ defmodule Showdown.GameBetsTest do
 
     test "should add a bet to game using func" do
       player = Showdown.Repo.get_by(Showdown.Owner, %{name: "player1"})
-      {:ok, user} = %{address: "0x", balance: 1000}
+      {:ok, user} = %{address: "0x", balance: 7000}
                         |> Accounts.create_user
 
       game = game_fixture()
