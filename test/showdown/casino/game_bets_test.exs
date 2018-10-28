@@ -35,6 +35,17 @@ defmodule Showdown.GameBetsTest do
       assert Map.get(gb, :bet_amount) == 1000
     end
 
+    test "should not be able bet during turn" do
+      player = Showdown.Repo.get_by(Showdown.Owner, %{name: "player1"})
+      {:ok, user} = %{address: "0x", balance: 1000}
+                    |> Accounts.create_user
+
+      game = game_fixture()
+      {:ok, game} = Showdown.Casino.update_game(game, %{round: "turn"})
+      {error, _} = Showdown.Casino.add_bet(game, "player1", "0x", 1000)
+      assert error == :error
+    end
+
     test "should add a bet to game using func" do
       player = Showdown.Repo.get_by(Showdown.Owner, %{name: "player1"})
       {:ok, user} = %{address: "0x", balance: 1000}

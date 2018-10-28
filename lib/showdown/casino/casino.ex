@@ -140,6 +140,15 @@ defmodule Showdown.Casino do
 
   end
 
+  def get_all_bets(game_id) do
+    with  {:ok, games} = Showdown.Repo.get(Showdown.Game, game_id)
+    do
+      games
+    else 
+      _ -> {:error, "There was an error getting all bets"}
+    end
+  end
+
   def insert_winner(%Game.Table{id: id}, player) do
     player = case is_binary(player) do
       true -> player
@@ -156,7 +165,7 @@ defmodule Showdown.Casino do
       |> Repo.insert!
   end
 
-  def add_bet(game, player_name, user_address, bet_amount) do
+  def add_bet(%Showdown.Game{round: "preflop"} = game, player_name, user_address, bet_amount) do
     player = Repo.get_by(Showdown.Owner, %{name: player_name})
     user = Repo.get_by(Showdown.Accounts.User, %{address: user_address})
 
@@ -168,4 +177,9 @@ defmodule Showdown.Casino do
       |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
       |> Repo.insert
   end
+
+  def add_bet(game, player_name, user_address, bet_amount) do
+    {:error, "Only able to bet during preflop phase"} 
+  end
+
 end

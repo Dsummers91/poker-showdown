@@ -9,6 +9,13 @@ defmodule ShowdownWeb.Schema do
     field :address, non_null(:string)
   end
 
+  input_object :add_bet_params do
+    field :game_id, non_null(:id)
+    field :player_name, non_null(:string)
+    field :user_address, non_null(:string)
+    field :bet_amount, non_null(:integer)
+  end
+
   input_object :signed_bet_tx do
     field :game_id, non_null(:id)
     field :winner, non_null(:string)
@@ -41,6 +48,12 @@ defmodule ShowdownWeb.Schema do
   end
 
   mutation do
+    @desc "Adds a bet to a game"
+    field :add_bet, type: :bet do
+      arg :bet, :add_bet_params
+      resolve &Resolvers.Casino.add_bet/3
+    end
+
     @desc "Create a new user"
     field :create_user, type: :user do 
       arg :address, non_null(:string)

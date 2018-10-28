@@ -16,4 +16,9 @@ defmodule ShowdownWeb.Resolvers.Casino do
     {:ok, Showdown.Casino.find_game(id)
             |> Game.Table.convert}
   end
+
+  def add_bet(_parent, %{bet: %{game_id: game_id, player_name: player_name, user_address: user_address, bet_amount: bet_amount}}, _resolution) do
+    Showdown.Casino.get_game!(game_id)
+      |> Showdown.Casino.add_bet(player_name, user_address, bet_amount)
+  end
 end

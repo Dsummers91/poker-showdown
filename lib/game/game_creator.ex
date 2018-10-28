@@ -17,6 +17,6 @@ defmodule Game.GameCreator do
   end
 
   defp create_games() do
-    Process.send_after(self(), :new_game, 15 * 1000) # Every 5 minutes
+    Process.send_after(self(), :new_game, 30* 1000) # Every 30 seconds
   end
 end

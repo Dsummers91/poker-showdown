@@ -63,11 +63,11 @@ defmodule TableTest do
 
   test "should return currectly updatable statuses" do
     game =  %Game.Table{starting_block: 1000, round: :preflop}
-    assert Game.Table.is_updatable(game, 1004) == false
-    assert Game.Table.is_updatable(game, 1005) == true
+    assert Game.Table.is_updatable(game, 1014) == false
+    assert Game.Table.is_updatable(game, 1015) == true
     game =  %Game.Table{starting_block: 2204, round: :flop}
-    assert Game.Table.is_updatable(game, 2212) == false
-    assert Game.Table.is_updatable(game, 2213) == true
+    assert Game.Table.is_updatable(game, 2223) == false
+    assert Game.Table.is_updatable(game, 2224) == true
   end
 
   @tag :skip

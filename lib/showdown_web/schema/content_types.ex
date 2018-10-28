@@ -47,5 +47,9 @@ defmodule ShowdownWeb.Schema.Games do
     field :players, :players
     field :inserted_at, :naive_datetime
   end
+
+  object :bet do
+    field :amount, :integer
+  end
 end
 

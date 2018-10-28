@@ -58,19 +58,19 @@ defmodule Game.Table do
   end
 
   defp is_ready(:preflop, starting_block, current_block) do
-    current_block >= starting_block + 5
+    current_block >= starting_block + 15
   end
 
   defp is_ready(:flop, starting_block, current_block) do
-    current_block >= starting_block + 9
+    current_block >= starting_block + 20
   end
 
   defp is_ready(:turn, starting_block, current_block) do
-    current_block >= starting_block + 13
+    current_block >= starting_block + 24
   end
   
   defp is_ready(:river, starting_block, current_block) do
-    current_block >= starting_block + 20
+    current_block >= starting_block + 28
   end
 
   defp is_ready(board, starting_block, current_block) do
