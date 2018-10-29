@@ -18,7 +18,8 @@ defmodule Showdown.Application do
       supervisor(Game.Server, []),
       #TODO: make this inside of scheduler instead of genserver
       supervisor(Game.GameCreator, []),
-      worker(Showdown.Scheduler, [])
+      supervisor(Game.StateChannel, []),
+      worker(Showdown.Scheduler, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

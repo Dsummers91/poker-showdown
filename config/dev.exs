@@ -57,3 +57,4 @@ config :showdown, Showdown.Repo,
   database: "showdown_dev",
   hostname: "localhost",
   pool_size: 10
+

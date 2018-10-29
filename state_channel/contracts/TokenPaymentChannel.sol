@@ -19,6 +19,8 @@ contract TokenPaymentChannel {
     uint256 expirationBlock;
   }
 
+  event ChannelOpenned(address indexed userAddress, address tokenAddress, uint256 tokenAmount);
+
   enum State {
     Open,
     Pending,
@@ -40,6 +42,7 @@ contract TokenPaymentChannel {
     require(Token(_tokenAddress).transferFrom(msg.sender, this, _tokenAmount));
     channels[_channelHash] = Channel(_tokenAddress, _tokenAmount, State.Open, msg.sender, 0);
     require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _channelHash), _v, _r, _s) == owner);
+    emit ChannelOpenned(msg.sender, _tokenAddress, _tokenAmount);
     return _channelHash;
   }
 

@@ -33,3 +33,8 @@ config :ethereumex,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+config :showdown,
+  abi_location: "/state_channel/abi/state_channel.abi",
+  address: "0x47f5df47e9b05a45d6a8e133d5681c09063d50e6"
+
