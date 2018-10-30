@@ -1,0 +1,19 @@
+{
+  "name": "state_channel",
+  "version": "1.0.0",
+  "description": "Offchain ERC20 Payment Channel for Dapps",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0",
+    "web3": "^0.20.7"
+  }
+}

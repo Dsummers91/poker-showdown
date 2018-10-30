@@ -26,7 +26,8 @@ config :logger, :console,
   metadata: [:user_id]
 
 config :ethereumex,
-  url: "http://localhost:8545"
+  url: "http://localhost:8545",
+  http_options: [timeout: 8000, recv_timeout: 5000]
   #url: "https://kovan.infura.io/v3/9d8f78bda44d422195fe01c95742aa1a"
 
 
@@ -36,5 +37,5 @@ import_config "#{Mix.env}.exs"
 
 config :showdown,
   abi_location: "/state_channel/abi/state_channel.abi",
-  address: "0x47f5df47e9b05a45d6a8e133d5681c09063d50e6"
+  address: "0xb7d2795dc4824077407f18e964adabc0038149b2"
 
