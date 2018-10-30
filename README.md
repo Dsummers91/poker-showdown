@@ -12,4 +12,3 @@ README in progress
 
 ### Shuffling System
 Shuffling system is secure, as to the reward is less than the block reward
-
