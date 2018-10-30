@@ -7,14 +7,15 @@ defmodule ShowdownWeb.Resolvers.Casino do
   end
 
   def list_active_games(_parent, _args, _resolution) do
-    {:ok, Showdown.Casino.list_active_games()
-            |> Enum.map(fn g -> Game.Table.convert(g) end)
-            }
+    {:ok, Showdown.Casino.list_active_games() |> Enum.map(fn g -> Game.Table.convert(g) end)}
   end
 
   def find_game(_parent, %{id: id}, _resolution) do
-    {:ok, Showdown.Casino.find_game(id)
-            |> Game.Table.convert}
+    {:ok, Showdown.Casino.find_game(id) |> Game.Table.convert}
+  end
+
+  def user_deposit(_parent, %{address: address, deposit_amount: amount}, _resolution) do
+    Showdown.Casino.increase_balance(address, amount)
   end
 
   def add_bet(_parent, %{bet: %{game_id: game_id, player_name: player_name, user_address: user_address, bet_amount: bet_amount}}, _resolution) do

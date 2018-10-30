@@ -184,15 +184,19 @@ defmodule Showdown.Casino do
   def add_bet(game, player_name, user_address, bet_amount) do
     {:error, "Only able to bet during preflop phase"} 
   end
+  
+  def increase_balance(address, amount) when is_binary(address) do
+    increase_balance(%Showdown.Accounts.User{address: address}, amount)
+  end
 
   @spec increase_balance(Showdown.Accounts.User, integer) :: {atom, Showdown.Accounts.User}
-   def increase_balance(%Showdown.Accounts.User{address: address, balance: balance}, amount) do
+   def increase_balance(%Showdown.Accounts.User{address: address}, amount) do
     player = from(u in User, where: u.address == ^address)
       |> Repo.one()
 
     if player do
       player
-        |> User.changeset(%{balance: player.balance - amount})
+        |> User.changeset(%{balance: player.balance + amount})
         |> Repo.update
     else
       {:error, "player does not exist"}

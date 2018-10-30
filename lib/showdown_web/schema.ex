@@ -48,6 +48,14 @@ defmodule ShowdownWeb.Schema do
   end
 
   mutation do
+    #This should be admin only
+    @desc "Add deposit to user"
+    field :deposit, type: :user do
+      arg :address, :string
+      arg :deposit_amount, :integer
+      resolve &Resolvers.Casino.user_deposit/3
+    end
+
     @desc "Adds a bet to a game"
     field :add_bet, type: :bet do
       arg :bet, :add_bet_params
@@ -99,5 +107,3 @@ defmodule ShowdownWeb.Schema do
 
   end
 end
-
-2
