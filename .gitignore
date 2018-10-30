@@ -12,3 +12,4 @@ erl_crash.dump
 *.swp
 
 working/
+schema.json
