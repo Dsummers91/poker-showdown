@@ -177,7 +177,7 @@ defmodule Showdown.Casino do
           |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
           |> Repo.insert
     else
-      err -> err
+      err -> {:error, "Error with bet"}
     end
   end
 

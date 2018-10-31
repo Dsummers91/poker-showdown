@@ -19,8 +19,8 @@ defmodule ShowdownWeb.Schema do
   input_object :signed_bet_tx do
     field :game_id, non_null(:id)
     field :winner, non_null(:string)
-    field :amount, non_null(:string)
-    field :signed_tx, non_null(:string)
+    field :amount, non_null(:integer)
+    #field :signed_tx, non_null(:string)
     #field :nonce, non_null(:integer)
   end
 

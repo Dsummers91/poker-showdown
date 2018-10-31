@@ -5,6 +5,7 @@ defmodule Showdown.Accounts do
 
   import Ecto.Query, warn: false
   alias Showdown.Repo
+  alias Showdown.Casino.GameBets
 
   alias Showdown.Accounts.User
 
@@ -73,8 +74,10 @@ defmodule Showdown.Accounts do
     |> Repo.update()
   end
 
-  def make_bet(%{address: adress, bet: bet_params}) do
-    {:ok, List.first(Repo.all(User))}
+  def make_bet(%{address: address, bet: %{game_id: game_id, winner: winner, amount: amount}}) do
+    game = Repo.get(Showdown.Game, game_id)
+
+    Showdown.Casino.add_bet(game, winner, address, amount)
   end
 
   @doc """
