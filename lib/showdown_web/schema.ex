@@ -77,6 +77,7 @@ defmodule ShowdownWeb.Schema do
 
     @desc "Creates a bet for the user"
     field :make_bet, type: :user do
+      @desc "address of user making bet"
       arg :address, :string
       arg :bet, :signed_bet_tx
       resolve &Resolvers.Account.make_bet/3

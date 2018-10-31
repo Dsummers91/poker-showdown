@@ -3,8 +3,8 @@ defmodule ShowdownWeb.Schema.Accounts do
 
   object :user do
     field :id, :id
-    field :address, :string
-    field :balance, :integer
+    field :address, non_null(:string)
+    field :balance, non_null(:integer)
   end
 end
 

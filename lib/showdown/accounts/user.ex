@@ -4,8 +4,12 @@ defmodule Showdown.Accounts.User do
 
 
   schema "users" do
+    @desc "Users ethereum address"
     field :address, :string
+    @desc "Users current balance within state channel"
     field :balance, :integer
+    #@desc "The nonce increments every successful login attempt"
+    #field :nonce, :integer
 
     timestamps()
   end

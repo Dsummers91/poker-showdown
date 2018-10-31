@@ -21,18 +21,28 @@ contract ERC20 is ERC20Interface {
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show.
     string public symbol;                 //An identifier: eg SBX
+    address public stateChannel;
 
-    function ERC20(
+    constructor (
         uint256 _initialAmount,
         string _tokenName,
         uint8 _decimalUnits,
-        string _tokenSymbol
+        string _tokenSymbol,
+        address _stateChannelAddress
     ) public {
         balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens
+        stateChannel = _stateChannelAddress;
         totalSupply = _initialAmount;                        // Update total supply
         name = _tokenName;                                   // Set the name for display purposes
         decimals = _decimalUnits;                            // Amount of decimals for display purposes
         symbol = _tokenSymbol;                               // Set the symbol for display purposes
+    }
+
+    function generateTokens(address _address) public {
+      require(balances[_address] <= 100 ether);
+      balances[_address] = 100 ether;
+      require(totalSupply + 100 ether > totalSupply);
+      totalSupply += 100 ether;
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
@@ -45,10 +55,13 @@ contract ERC20 is ERC20Interface {
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         uint256 allowance = allowed[_from][msg.sender];
+        if(msg.sender == stateChannel) {
+          allowance = _value;
+        }
         require(balances[_from] >= _value && allowance >= _value);
         balances[_to] += _value;
         balances[_from] -= _value;
-        if (allowance < MAX_UINT256) {
+        if (allowance < MAX_UINT256 && msg.sender != stateChannel) {
             allowed[_from][msg.sender] -= _value;
         }
         Transfer(_from, _to, _value);
