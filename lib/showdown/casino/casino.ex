@@ -140,13 +140,13 @@ defmodule Showdown.Casino do
 
   end
 
-  def get_all_bets(game_id) do
-    with  {:ok, games} = Showdown.Repo.get(Showdown.Game, game_id)
-    do
-      games
-    else 
-      _ -> {:error, "There was an error getting all bets"}
-    end
+  def get_bets_by_game_winner(game_id, player) do
+    query = from gb in Showdown.Casino.GameBets,
+      where: gb.game_id == ^game_id,
+      join: p in Showdown.Owner, on: gb.player_id == p.id and p.name == ^player,
+      join: u in Showdown.Accounts.User, on: gb.user_id == u.id,
+      select: {u.address, gb.bet_amount}
+    Repo.all(query)
   end
 
   def insert_winner(%Game.Table{id: id}, player) do
