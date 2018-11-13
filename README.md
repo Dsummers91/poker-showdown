@@ -17,6 +17,11 @@ http://localhost:4000/api
 
 
 
+## Miscellaneous
+
+Get current block from blockchain
+`web3.eth.getBlock('latest', (err ,res) => {console.log(res)})`
+
 ## RULES
   - Game Started Every _ minute interval, Current Block on Network is Stored
   - A specific block in the future is chosen to select flop/turn/river
