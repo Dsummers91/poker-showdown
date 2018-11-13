@@ -1,8 +1,10 @@
 defmodule ShowdownWeb.Schema.Accounts do
   use Absinthe.Schema.Notation
 
+  @desc "User of the platform"
   object :user do
     field :id, :id
+    @desc "Users Ethereum Address"
     field :address, non_null(:string)
     field :balance, non_null(:integer)
   end

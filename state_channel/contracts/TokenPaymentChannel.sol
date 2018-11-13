@@ -19,9 +19,10 @@ contract TokenPaymentChannel {
     uint256 expirationBlock;
   }
 
-  event ChannelOpenned(address indexed userAddress, address tokenAddress, uint256 tokenAmount);
+  event TokenDeposited(address indexed userAddress, address tokenAddress, uint256 tokenAmount);
 
   enum State {
+    Uninitialized,
     Open,
     Pending,
     Closed
@@ -34,37 +35,39 @@ contract TokenPaymentChannel {
   /**
     @notice Participant must approve token contract to transfer tokens prior to opening channel
     @dev Opens a payment channel keeping the tokens within this contract as escrow
-   */
+    @dev elliptical curve signatures are ensured to be valid here, for immediate channel exits
+   **/
   function openChannel(address _tokenAddress, uint256 _tokenAmount, uint8 _v, bytes32 _r, bytes32 _s) 
     public returns (bytes32 channelHash) 
   {
-    bytes32 _channelHash = keccak256(_tokenAddress, _tokenAmount, msg.sender);
-    require(Token(_tokenAddress).transferFrom(msg.sender, this, _tokenAmount));
-    channels[_channelHash] = Channel(_tokenAddress, _tokenAmount, State.Open, msg.sender, 0);
+    require(channels[_channelHash].state == State.Uninitialized);
+    bytes32 _channelHash = keccak256(_tokenAddress, msg.sender);
     require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _channelHash), _v, _r, _s) == owner);
-    emit ChannelOpenned(msg.sender, _tokenAddress, _tokenAmount);
+    require(Token(_tokenAddress).transferFrom(msg.sender, this, _tokenAmount));
+    channels[_channelHash] = Channel(_tokenAddress, _tokenAmount, State.Open, msg.sender, msg.value);
+    emit TokenDeposited(msg.sender, _tokenAddress, _tokenAmount);
     return _channelHash;
   }
 
   /**
     @dev Closes payment channel and sends token to owner, and refunds participant for remaining amount
     @param _channelHash  Hash of channel information
-    @param _refundAmount Amount sent back to participant
+    @param _channelAmount Amount sent back to participant
     @param _channelCloseHash hash of all input from this function signed by both participants
     @param _v elliptic curve signature V
     @param _r elliptic curve signature R
     @param _s elliptic curve signature S
    */
-  function closeChannel(bytes32 _channelHash, uint256 _refundAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
+  function closeChannel(bytes32 _channelHash, uint256 _channelAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
     public onlyParticipant(_channelHash) inState(_channelHash, State.Open) returns (bool success)
   {
     require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _channelCloseHash), _v, _r, _s) == owner);
-    bytes32 _hash = keccak256(_channelHash, _refundAmount);
+    bytes32 _hash = keccak256(_channelHash, _channelAmount);
     Channel storage _channel = channels[_channelHash];
     _channel.state = State.Closed;
-    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _refundAmount == _channel.tokenAmount));
-    require(Token(_channel.tokenAddress).transfer(_channel.participant, _refundAmount));
-    require(Token(_channel.tokenAddress).transfer(owner, _channel.tokenAmount - _refundAmount));
+    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _channelAmount == _channel.tokenAmount));
+    require(Token(_channel.tokenAddress).transfer(_channel.participant, _channelAmount));
+    require(Token(_channel.tokenAddress).transfer(owner, _channel.tokenAmount - _channelAmount));
     return true;
   }
 
@@ -72,13 +75,13 @@ contract TokenPaymentChannel {
     @notice Channel will be successfully voided after a certain number of blocks
     @dev Allows participant to void channel
    */
-  function voidChannel(bytes32 _channelHash, uint256 _refundAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
+  function voidChannel(bytes32 _channelHash, uint256 _channelAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
     public onlyParticipant(_channelHash) inState(_channelHash, State.Open) returns (bool success)
   {
     require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _channelCloseHash), _v, _r, _s) == owner);
-    bytes32 _hash = keccak256(_channelHash, _refundAmount);
+    bytes32 _hash = keccak256(_channelHash, _channelAmount);
     Channel storage _channel = channels[_channelHash];
-    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _refundAmount == _channel.tokenAmount));
+    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _channelAmount == _channel.tokenAmount));
     _channel.expirationBlock = block.number + 180000; // Roughly a month
     _channel.state = State.Pending;
     return true;
@@ -87,15 +90,15 @@ contract TokenPaymentChannel {
   /**
     @dev After alotted time has passed since voidChannel has been called without 
    */
-  function finalizeVoidChannel(bytes32 _channelHash, uint256 _refundAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
+  function finalizeVoidChannel(bytes32 _channelHash, uint256 _channelAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
     public onlyParticipant(_channelHash) inState(_channelHash, State.Pending) returns (bool success)
   {
     require(ecrecover(keccak256("\x19Ethereum Signed Message:\n32", _channelCloseHash), _v, _r, _s) == owner);
-    bytes32 _hash = keccak256(_channelHash, _refundAmount);
+    bytes32 _hash = keccak256(_channelHash, _channelAmount);
     Channel storage _channel = channels[_channelHash];
-    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _refundAmount == _channel.tokenAmount));
-    require(Token(_channel.tokenAddress).transfer(_channel.participant, _refundAmount));
-    require(Token(_channel.tokenAddress).transfer(owner, _channel.tokenAmount - _refundAmount));
+    require(_channelCloseHash == _hash || (_channelCloseHash == _channelHash && _channelAmount == _channel.tokenAmount));
+    require(Token(_channel.tokenAddress).transfer(_channel.participant, _channelAmount));
+    require(Token(_channel.tokenAddress).transfer(owner, _channel.tokenAmount - _channelAmount));
     _channel.state = State.Closed;
     return true;
   }
@@ -104,7 +107,7 @@ contract TokenPaymentChannel {
     @notice Since owner has a signed hash from participant, can take his word as law. Participant loses some stake if true
     @dev If Owner has a signed hash from participant and he tries to void channel, owner can counter
    */
-  function counterVoidChannel(bytes32 _channelHash, uint256 _refundAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
+  function counterVoidChannel(bytes32 _channelHash, uint256 _channelAmount, bytes32 _channelCloseHash, uint8 _v, bytes32 _r, bytes32 _s) 
     public inState(_channelHash, State.Pending) returns (bool success)
   {
     return true;
@@ -123,8 +126,8 @@ contract TokenPaymentChannel {
     return keccak256(_tokenAddress, _tokenAmount, _account);
   }
 
-  function getChannelCloseHash(bytes32 _channelHash, uint256 _refundAmount) public view returns(bytes32) {
-    return keccak256(_channelHash, _refundAmount);
+  function getChannelCloseHash(bytes32 _channelHash, uint256 _channelAmount) public view returns(bytes32) {
+    return keccak256(_channelHash, _channelAmount);
   }
 
 

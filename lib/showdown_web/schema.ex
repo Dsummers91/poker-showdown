@@ -11,6 +11,7 @@ defmodule ShowdownWeb.Schema do
 
   input_object :add_bet_params do
     field :game_id, non_null(:id)
+    @desc "player being betted on"
     field :player_name, non_null(:string)
     field :user_address, non_null(:string)
     field :bet_amount, non_null(:integer)

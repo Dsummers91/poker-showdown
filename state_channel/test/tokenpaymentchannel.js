@@ -8,7 +8,7 @@ contract('TokenPaymentChannel', async (accounts) => {
 
   before(async () => {
     contract = await TokenPaymentChannel.new({ from: dappOwner });
-    token = await ERC20.new(100e18, "Token", 18, "TKN");
+    token = await ERC20.new(100e18, "Token", 18, "TKN", contract.address);
     await token.approve(contract.address, 100e18);
   })
 
@@ -27,7 +27,7 @@ contract('TokenPaymentChannel', async (accounts) => {
     let channel = await contract.channel(channelHash);
     assert.equal(channel[0], token.address);
     assert.deepEqual(channel[1], web3.toBigNumber(tokenAmount));
-    assert.equal(channel[2], 0);
+    assert.equal(channel[2], 1);
     assert.equal(channel[3], accounts[0], 'participant is not first account');
 
     let contractTokenBalance = await token.balanceOf(contract.address);
@@ -61,7 +61,7 @@ contract('TokenPaymentChannel', async (accounts) => {
 
 
     let channel = await contract.channel(channelHash);
-    assert.equal(channel[2], 2, 'Channel isn\'t closed');
+    assert.equal(channel[2], 3, 'Channel isn\'t closed');
   })
 
   it('should be able to close a channel with transaction within it', async() => {
@@ -97,6 +97,6 @@ contract('TokenPaymentChannel', async (accounts) => {
 
 
     let channel = await contract.channel(channelHash);
-    assert.equal(channel[2], 2, 'Channel isn\'t closed');
+    assert.equal(channel[2], 3, 'Channel isn\'t closed');
   })
 });

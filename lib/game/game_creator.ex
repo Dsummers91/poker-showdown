@@ -6,6 +6,7 @@ defmodule Game.GameCreator do
   end
 
   def init(state) do
+    Game.Table.new_game()
     create_games()
     {:ok, state}
   end
@@ -17,6 +18,6 @@ defmodule Game.GameCreator do
   end
 
   defp create_games() do
-    Process.send_after(self(), :new_game, 3 * 60 * 1000) # Every 30 seconds
+    Process.send_after(self(), :new_game, 2 * 60 * 1000) # Every 30 seconds
   end
 end

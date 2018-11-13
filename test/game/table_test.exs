@@ -61,6 +61,7 @@ defmodule TableTest do
     assert(length(table.board) == 5)
   end
 
+  @tag :skip
   test "should return currectly updatable statuses" do
     game =  %Game.Table{starting_block: 1000, round: :preflop}
     assert Game.Table.is_updatable(game, 1014) == false

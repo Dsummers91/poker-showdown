@@ -106,7 +106,9 @@ defmodule Game.Hand do
   end
 
   def is_pair(number) do
-    Enum.any?(number, fn x -> elem(x, 1) == 2 end)
+    number
+      |> Enum.filter(fn x -> elem(x, 1) == 2 end)
+      |> List.first
   end
 
   def suit_number_count(hand) do

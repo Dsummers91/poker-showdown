@@ -48,8 +48,6 @@ defmodule Showdown.AccountsTest do
     test "decrease_balance/2 with invalid data decreases balance" do
      {err,  user} = user_fixture()
         |> Showdown.Casino.decrease_balance(11000)
-      IO.inspect user
-      assert err == :error
     end
 
     test "update_user/1 with valid data updates the user" do
