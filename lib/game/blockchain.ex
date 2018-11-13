@@ -34,7 +34,6 @@ defmodule Game.Blockchain do
   def get_block(block, :hash) do
     "0x"<>List.to_string(Integer.to_charlist(block, 16))
       |> ExW3.block
-      |> IO.inspect
       |> Map.get("hash")
   end
 

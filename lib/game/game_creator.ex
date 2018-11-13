@@ -6,7 +6,6 @@ defmodule Game.GameCreator do
   end
 
   def init(state) do
-    Game.Table.new_game()
     create_games()
     {:ok, state}
   end

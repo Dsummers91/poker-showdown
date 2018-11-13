@@ -8,7 +8,8 @@ mix deps.get
 
 ## Running
 ```
-mix phx.server
+./start_blockchain.sh
+iex -S mix phx.server
 ```
 
 GUI API - http://localhost:4000/api/graphiql
