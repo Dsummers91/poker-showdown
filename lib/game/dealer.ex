@@ -46,9 +46,9 @@ defmodule Game.Dealer do
 
   def draw_cards(game_id, round, starting_block, deck, board) do
     block_number = case round do
-      :flop -> starting_block + 4
-      :turn -> starting_block + 8
-      :river -> starting_block + 12
+      :flop -> starting_block + 40
+      :turn -> starting_block + 60
+      :river -> starting_block + 80
     end
     board = case board do
       nil -> []
