@@ -1,7 +1,26 @@
 # Showdown Poker
 README in progress
 
+## Installation
+```
+mix deps.get
+```
 
+## Running
+```
+mix phx.server
+```
+
+GUI API - http://localhost:4000/api/graphiql
+or
+http://localhost:4000/api
+
+
+
+## Miscellaneous
+
+Get current block from blockchain
+`web3.eth.getBlock('latest', (err ,res) => {console.log(res)})`
 
 ## RULES
   - Game Started Every _ minute interval, Current Block on Network is Stored
