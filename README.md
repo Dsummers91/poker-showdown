@@ -1,6 +1,20 @@
 # Showdown Poker
 README in progress
 
+## Installation
+```
+mix deps.get
+```
+
+## Running
+```
+mix phx.server
+```
+
+GUI API - http://localhost:4000/api/graphiql
+or
+http://localhost:4000/api
+
 
 
 ## RULES
