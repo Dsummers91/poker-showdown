@@ -48,6 +48,11 @@ defmodule ShowdownWeb.Schema.Games do
     field :board, list_of(:card)
     field :players, :players
     field :inserted_at, :naive_datetime
+    field :winner, :owner
+  end
+
+  object :winner do
+    field :winner, :owner
   end
 
   object :bet do

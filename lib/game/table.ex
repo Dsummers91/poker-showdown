@@ -34,7 +34,7 @@ defmodule Game.Table do
 
   def convert(%Showdown.Game{} = game) do
     game
-      |> Map.take([:id, :round, :starting_block, :deck_hash, :cards])
+      |> Map.take([:winner, :id, :round, :starting_block, :deck_hash, :cards])
       |> Game.Deck.get_deck()
       |> assign_card_owners()
       |> (&(struct(Game.Table, &1))).()
@@ -58,19 +58,19 @@ defmodule Game.Table do
   end
 
   defp is_ready(:preflop, starting_block, current_block) do
-    current_block >= starting_block + 21
+    current_block >= starting_block + Application.get_env(:showdown, :preflop_blocks) + Application.get_env(:showdown, :number_of_confirmations)
   end
 
   defp is_ready(:flop, starting_block, current_block) do
-    current_block >= starting_block + 31
+    current_block >= starting_block + Application.get_env(:showdown, :flop_blocks) + Application.get_env(:showdown, :number_of_confirmations)
   end
 
   defp is_ready(:turn, starting_block, current_block) do
-    current_block >= starting_block + 41
+    current_block >= starting_block + Application.get_env(:showdown, :turn_blocks) + Application.get_env(:showdown, :number_of_confirmations)
   end
   
   defp is_ready(:river, starting_block, current_block) do
-    current_block >= starting_block + 43
+    current_block >= starting_block + Application.get_env(:showdown, :river_blocks) + Application.get_env(:showdown, :number_of_confirmations)
   end
 
   defp is_ready(board, starting_block, current_block) do

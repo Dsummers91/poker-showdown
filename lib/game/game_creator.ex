@@ -7,6 +7,7 @@ defmodule Game.GameCreator do
 
   def init(state) do
     create_games()
+    Process.send_after(self(), :new_game, 2 * 1000) # Every 30 seconds
     {:ok, state}
   end
 
@@ -17,6 +18,6 @@ defmodule Game.GameCreator do
   end
 
   defp create_games() do
-    Process.send_after(self(), :new_game, 2 * 60 * 1000) # Every 30 seconds
+    Process.send_after(self(), :new_game, Application.get_env(:showdown, :new_game_interval) * 1000) # Every 30 seconds
   end
 end

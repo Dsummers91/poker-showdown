@@ -31,11 +31,14 @@ config :ethereumex,
   #url: "https://kovan.infura.io/v3/9d8f78bda44d422195fe01c95742aa1a"
 
 
+config :showdown,
+  preflop_blocks: 10, #blocks for preflop(betting) round
+  flop_blocks: 12,
+  turn_blocks: 15,
+  river_blocks: 17, #unused for now
+  number_of_confirmations: 1, #Block confirmations before selecting
+  new_game_interval: 30 #seconds between games
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
-
-config :showdown,
-  abi_location: "/state_channel/abi/state_channel.abi",
-  address: "0xb7d2795dc4824077407f18e964adabc0038149b2"
-

@@ -50,7 +50,7 @@ defmodule Showdown.Mixfile do
       {:phoenix, "~> 1.3.4"},
       {:phoenix_ecto, "~> 3.2"},
       {:phoenix_html, "~> 2.10"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_live_reload, "~> 1.0", only: [:dev, :zhen]},
       {:phoenix_pubsub, "~> 1.0"},
       {:plug, "~> 1.6.0"},
       {:poison, "~> 3.0", override: true},

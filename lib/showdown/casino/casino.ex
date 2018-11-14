@@ -106,7 +106,7 @@ defmodule Showdown.Casino do
   end
 
   def get_game(id) do
-    Repo.get(Showdown.Game, id)
+    Repo.get(Showdown.Game, id) |> Repo.preload([:winner])
   end
 
   def get_game!(id) do
@@ -115,7 +115,7 @@ defmodule Showdown.Casino do
 
   def find_game(id) do
     Repo.get(Showdown.Game, id)
-      |> Repo.preload([cards: [:card, :owner]])
+      |> Repo.preload([:winner, cards: [:card, :owner]])
   end
 
   def list_active_games() do
