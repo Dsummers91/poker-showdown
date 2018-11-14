@@ -3,6 +3,7 @@ README in progress
 
 ## Installation
 ```
+npm i -g ganache-cli
 mix deps.get
 ```
 
@@ -10,6 +11,12 @@ mix deps.get
 ```
 ./start_blockchain.sh
 iex -S mix phx.server
+```
+
+Zhen use this to run
+```
+./start_blockhain.sh
+MIX_ENX=zhen iex -S mix phx.server
 ```
 
 GUI API - http://localhost:4000/api/graphiql
