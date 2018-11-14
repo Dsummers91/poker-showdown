@@ -3,10 +3,10 @@ README in progress
 
 ## Installation
 ```
-mix ecto.create
-mix ecto.migrate
 npm i -g ganache-cli
 mix deps.get
+mix ecto.create
+mix ecto.migrate
 ```
 
 ## Running
