@@ -98,6 +98,8 @@ defmodule Game.Table do
     {board, deck} = Game.Dealer.draw_cards(table.id, table.round, table.starting_block, table.deck, Map.get(table.players, :board))
     table = Map.put(table, :board, board) 
     table = Map.put(table, :deck, deck) 
+    Absinthe.Subscription.publish(ShowdownWeb.Endpoint, table, [game_updated: table.id])
+    IO.inspect table.id
     table
   end
 

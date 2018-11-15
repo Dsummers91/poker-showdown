@@ -1,0 +1,297 @@
+{
+  "key": "graphiql",
+  "lastId": 7,
+  "tabIds": [
+    "tab1",
+    "tab2",
+    "tab3",
+    "tab4",
+    "tab5"
+  ],
+  "closedTabs": [
+    {
+      "id": "tab7",
+      "name": "Player notifications (WiP)",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n  notifyWinner(gameId: \"27\", playerId: \"10\") {\n  \twinner {\n    \tname\n  \t}\n  }\n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n  notifyWinner(gameId: 27, playerId: 10) {\\n  \\twinner {\\n    \\tname\\n  \\t}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"# This is a work in progress\\nsubscription {\\n  notifyWinner(gameId: 27, playerId: 10) {\\n  \\twinner {\\n    \\tname\\n  \\t}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"## This is a work in progress\\nsubscription {\\n  notifyWinner(gameId: 27, playerId: 10) {\\n  \\twinner {\\n    \\tname\\n  \\t}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  notifyWinner(gameId: 27, playerId: 10) {\\n  \\twinner {\\n    \\tname\\n  \\t}\\n  }\\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n  notifyWinner(gameId: \\\"27\\\", playerId: \\\"10\\\") {\\n  \\twinner {\\n    \\tname\\n  \\t}\\n  }\\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab6",
+      "name": "Query 6",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n\tgameUpdated(gameId: \"41\") {\n    id\n  }  \n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 37) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: \\\"37\\\") {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: \\\"39\\\") {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: \\\"41\\\") {\\n    id\\n  }  \\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ],
+  "defaultUrl": "http://localhost:4000/api/graphiql",
+  "defaultWebsocketUrl": "",
+  "defaultQuery": "",
+  "defaultVariables": "",
+  "defaultProxy": false,
+  "defaultHeaders": [],
+  "usedUrls": [
+    "http://localhost:4000/api/graphiql"
+  ],
+  "recentHeaders": [],
+  "maxTabHistory": 20,
+  "maxUrlHistory": 20,
+  "maxHistory": 20,
+  "savedQueries": [],
+  "activeId": "tab5",
+  "tabs": [
+    {
+      "id": "tab1",
+      "name": "Active Games",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/websocket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n      player2 {\n        suit\n        number\n      }\n      player3 {\n        suit\n        number\n      }\n      player4 {\n        suit\n        number\n      }\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n      player2 {\n        suit\n        number\n      }\n      player3 {\n        suit\n        number\n      }\n      player4 {\n        suit\n        number\n      }\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  games {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    round\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      } \n      player2 {\n        suit\n        number\n      }      \n      player3 {\n        suit\n        number\n      }    \n      player4 {\n        suit\n        number\n      }\n    \tboard {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n      player2 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  games {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  games {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  games {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames{\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  games{\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames{\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "{\n  activeGames {\n    id\n    deckHash\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n      player1 {\n        suit\n        number\n      }\n      player2 {\n        suit\n        number\n      }\n      player3 {\n        suit\n        number\n      }\n      player4 {\n        suit\n        number\n      }\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"{\\n  activeGames{\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  games{\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames{\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  games {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  games {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  games {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n      player2 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    round\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      } \\n      player2 {\\n        suit\\n        number\\n      }      \\n      player3 {\\n        suit\\n        number\\n      }    \\n      player4 {\\n        suit\\n        number\\n      }\\n    \\tboard {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  games {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n      player2 {\\n        suit\\n        number\\n      }\\n      player3 {\\n        suit\\n        number\\n      }\\n      player4 {\\n        suit\\n        number\\n      }\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    deckHash\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n      player1 {\\n        suit\\n        number\\n      }\\n      player2 {\\n        suit\\n        number\\n      }\\n      player3 {\\n        suit\\n        number\\n      }\\n      player4 {\\n        suit\\n        number\\n      }\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null}]}",
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab2",
+      "name": "Make Bets",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": " mutation {\n  makeBet(address: \"0x\" bet:{gameId: 3, amount: 1000, winner:\"player1\"}) {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": " mutation {\n  makeBet(address: \"0x\" bet:{gameId: 2, amount: 1000, winner:\"player1\"}) {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": " mutation {\n  makeBet(address: \"0x\" bet:{gameId: 1, amount: 1000, winner:\"player1\"}) {\n    id\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": " mutation {\n  makeBet(address: \"0x\" bet:{gameId: 1, amount: \"1000\", winner:\"player1\", signedTx:\"0xx\"}) {\n    id\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": " mutation {\n  makeBet(address: \"0x\" bet:{gameId: 3, amount: 1000, winner:\"player1\"}) {\n    id\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1.350785340314136,
+      "graphiql:queries": "{\"queries\":[{\"query\":\" mutation {\\n  makeBet(address: \\\"0x\\\" bet:{gameId: 1, amount: \\\"1000\\\", winner:\\\"player1\\\", signedTx:\\\"0xx\\\"}) {\\n    id\\n  }\\n}\",\"variables\":\"\"},{\"query\":\" mutation {\\n  makeBet(address: \\\"0x\\\" bet:{gameId: 1, amount: 1000, winner:\\\"player1\\\"}) {\\n    id\\n  }\\n}\"},{\"query\":\" mutation {\\n  makeBet(address: \\\"0x\\\" bet:{gameId: 2, amount: 1000, winner:\\\"player1\\\"}) {\\n    id\\n  }\\n}\"},{\"query\":\" mutation {\\n  makeBet(address: \\\"0x\\\" bet:{gameId: 3, amount: 1000, winner:\\\"player1\\\"}) {\\n    id\\n  }\\n}\"}]}",
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab3",
+      "name": "Get Game By ID",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/websocket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [
+        {
+          "query": "{\n  game(id: 35) {\n    id\n    round\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 35) {\n    id\n    round\n    winner {\n      winner {\n      \tname\n      }\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 89) {\n    id\n    round\n    winner {\n      \tname\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 89) {\n    id\n    round\n    winner {\n      winner {\n      \tname\n      }\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 90) {\n    id\n    round\n    winner {\n      winner {\n      \tname\n      }\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 90) {\n    id\n    round\n    winner {\n      winner {\n        id\n      }\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 90) {\n    id\n    round\n    winner {\n      name\n    }\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 90) {\n    id\n    round\n    \n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  game(id: 90) {\n    id\n    round\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    round\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    round\n    startingBlock\n    players {\n      board {\n        suit\n        number\n      }\n    }\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    id\n    round\n    startingBlock\n  }\n}",
+          "variables": null
+        },
+        {
+          "query": "{\n  activeGames {\n    round\n    startingBlock\n  }\n}",
+          "variables": null
+        }
+      ],
+      "graphiql:query": "{\n  game(id: 35) {\n    id\n    round\n    startingBlock\n  }\n}",
+      "graphiql:docExplorerWidth": 350,
+      "graphiql:editorFlex": 1,
+      "graphiql:queries": "{\"queries\":[{\"query\":\"{\\n  activeGames {\\n    round\\n    startingBlock\\n  }\\n}\",\"variables\":\"\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    round\\n    startingBlock\\n  }\\n}\",\"variables\":\"\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    round\\n    startingBlock\\n    players {\\n      board {\\n        suit\\n        number\\n      }\\n    }\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  activeGames {\\n    id\\n    round\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 90) {\\n    id\\n    round\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 90) {\\n    id\\n    round\\n    \\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 90) {\\n    id\\n    round\\n    winner {\\n      name\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 90) {\\n    id\\n    round\\n    winner {\\n      winner\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 90) {\\n    id\\n    round\\n    winner {\\n      winner {\\n      \\tname\\n      }\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 89) {\\n    id\\n    round\\n    winner {\\n      winner {\\n      \\tname\\n      }\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 89) {\\n    id\\n    round\\n    winner {\\n      \\tname\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 35) {\\n    id\\n    round\\n    winner {\\n      winner {\\n      \\tname\\n      }\\n    }\\n    startingBlock\\n  }\\n}\",\"operationName\":null},{\"query\":\"{\\n  game(id: 35) {\\n    id\\n    round\\n    startingBlock\\n  }\\n}\",\"operationName\":null}]}",
+      "graphiql:variableEditorHeight": 200
+    },
+    {
+      "id": "tab4",
+      "name": "New Game Subscription",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n\tgameCreated {\n    id\n  }  \n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n\\tgameCreated {\\n    id\\n  }  \\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    },
+    {
+      "id": "tab5",
+      "name": "Game Update Subscription",
+      "url": "http://localhost:4000/api/graphiql",
+      "websocketUrl": "ws://localhost:4000/socket",
+      "proxy": false,
+      "headers": [],
+      "collapsed": false,
+      "maxHistory": 20,
+      "history": [],
+      "graphiql:query": "subscription {\n\tgameUpdated(gameId: 41) {\n    id\n  }  \n}",
+      "graphiql:variables": "",
+      "graphiql:queries": "{\"queries\":[{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 89) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 29) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 35) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 37) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 39) {\\n    id\\n  }  \\n}\",\"variables\":\"\"},{\"query\":\"subscription {\\n\\tgameUpdated(gameId: 41) {\\n    id\\n  }  \\n}\",\"variables\":\"\"}]}",
+      "graphiql:editorFlex": 1,
+      "graphiql:variableEditorHeight": 200,
+      "graphiql:docExplorerWidth": 350
+    }
+  ]
+}

@@ -5,7 +5,7 @@ defmodule Game.GameCreator do
     GenServer.start_link(__MODULE__, %{}, name: :game_creator)
   end
 
-  df init(state) do
+  def init(state) do
     create_games()
     {:ok, state}
   end
