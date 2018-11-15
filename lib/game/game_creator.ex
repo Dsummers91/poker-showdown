@@ -5,9 +5,8 @@ defmodule Game.GameCreator do
     GenServer.start_link(__MODULE__, %{}, name: :game_creator)
   end
 
-  def init(state) do
+  df init(state) do
     create_games()
-    Process.send_after(self(), :new_game, 2 * 1000) # Every 30 seconds
     {:ok, state}
   end
 
@@ -18,6 +17,6 @@ defmodule Game.GameCreator do
   end
 
   defp create_games() do
-    Process.send_after(self(), :new_game, Application.get_env(:showdown, :new_game_interval) * 1000) # Every 30 seconds
+    Process.send_after(self(), :new_game, Application.get_env(:showdown, :new_game_interval) * 1000) #Interval set in config
   end
 end

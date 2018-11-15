@@ -5,7 +5,7 @@ defmodule Showdown.Accounts.User do
 
   schema "users" do
     field :address, :string
-    field :balance, :integer
+    field :balance, :integer, default: 10000
     #field :nonce, :integer
 
     timestamps()

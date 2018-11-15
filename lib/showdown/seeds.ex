@@ -1,7 +1,7 @@
 defmodule Showdown.Seeds do
 
   def call do
-    if length(Showdown.Accounts.list_users()) == 0 do
+    if length(Showdown.Accounts.list_users()) == 0 && Application.get_env(:showdown, :env) == :dev do
       Showdown.Accounts.create_user(%{address: "test", balance: 100000})
     end
 
