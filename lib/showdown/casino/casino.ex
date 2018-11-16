@@ -115,7 +115,8 @@ defmodule Showdown.Casino do
 
   def find_game(id) do
     Repo.get(Showdown.Game, id)
-      |> Repo.preload([:winner, cards: [:card, :owner]])
+      |> Repo.preload([winner: [:winner], cards: [:card, :owner]])
+      |> IO.inspect
   end
 
   def list_active_games() do
@@ -177,7 +178,7 @@ defmodule Showdown.Casino do
           |> Ecto.Changeset.put_change(:bet_amount, bet_amount)
           |> Repo.insert
     else
-      err -> {:error, "Error with bet"}
+      err -> err
     end
   end
 
@@ -203,15 +204,23 @@ defmodule Showdown.Casino do
     end
   end 
   
+  def decrease_balance(nil, amount) do
+    {:error, "user does not exist"}
+  end
+
   @spec decrease_balance(Showdown.Accounts.User, integer) :: {atom, Showdown.Accounts.User}
   def decrease_balance(%Showdown.Accounts.User{id: id, balance: balance}, amount) do
     player = from(u in User, where: u.id == ^id, lock: "FOR UPDATE")
       |> Repo.one()
 
     if player do
-      player
-        |> User.changeset(%{balance: player.balance - amount})
-        |> Repo.update
+      if player.balance - amount <= 0 do
+        {:error, "Player does not have sufficient balance"}
+      else
+        player
+          |> User.changeset(%{balance: player.balance - amount})
+          |> Repo.update
+      end
     else
       {:error, "player does not exist"}
     end

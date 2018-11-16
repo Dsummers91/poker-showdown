@@ -31,6 +31,12 @@ defmodule ShowdownWeb.Schema do
       resolve &Resolvers.Account.list_users/3
     end
 
+    @desc "Get a user"
+    field :user, :user do
+      arg :address, non_null(:string)
+      resolve &Resolvers.Account.get_user/3
+    end
+
     @desc "Get all games"
     field :games, list_of(:game) do
       resolve &Resolvers.Casino.list_games/3
@@ -67,6 +73,12 @@ defmodule ShowdownWeb.Schema do
     field :create_user, type: :user do 
       arg :address, non_null(:string)
       resolve &Resolvers.Account.create_user/3
+    end
+
+    @desc "Generates Tokens for Specific User"
+    field :top_up_balance, type: :user do 
+      arg :address, non_null(:string)
+      resolve &Resolvers.Account.top_up_balance/3
     end
 
     @desc "Update an existing user"

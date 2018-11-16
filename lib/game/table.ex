@@ -106,6 +106,7 @@ defmodule Game.Table do
   def end_game(table) do
     winner = Game.Hand.compare_hands(table)
     Showdown.Casino.insert_winner(table, winner)
+    award_winners(table, winner)
   end
 
   def advance_round(table) do

@@ -8,5 +8,6 @@ defmodule Showdown.Repo.Migrations.CreateUsers do
       timestamps()
     end
 
+    create unique_index(:users, [:address])
   end
 end

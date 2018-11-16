@@ -38,6 +38,8 @@ defmodule Showdown.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(%{address: address}), do: Repo.get_by(User, %{address: address})
+
   @doc """
   Creates a user.
 
@@ -71,6 +73,16 @@ defmodule Showdown.Accounts do
   def update_user(%{id: id, user: user_params}) do
     Repo.get!(User, id)
     |> User.changeset(user_params)
+    |> Repo.update()
+  end
+
+  def top_up_balance(address) do
+    Repo.get_by(User, address)
+      |> (&(Map.get(&1, :balance))).()
+      |> IO.inspect
+
+    Repo.get_by(User, address)
+    |> (&(User.changeset(&1, %{balance: Kernel.max( &1.balance, 10000)}))).()
     |> Repo.update()
   end
 
