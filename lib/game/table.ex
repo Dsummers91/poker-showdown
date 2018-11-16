@@ -99,7 +99,6 @@ defmodule Game.Table do
     table = Map.put(table, :board, board) 
     table = Map.put(table, :deck, deck) 
     Absinthe.Subscription.publish(ShowdownWeb.Endpoint, table, [game_updated: table.id])
-    IO.inspect table.id
     table
   end
 
@@ -107,6 +106,11 @@ defmodule Game.Table do
     winner = Game.Hand.compare_hands(table)
     Showdown.Casino.insert_winner(table, winner)
     award_winners(table, winner)
+  end
+
+  @doc "awards users who bet on correct person"
+  def award_winners(table, winner) do
+
   end
 
   def advance_round(table) do
