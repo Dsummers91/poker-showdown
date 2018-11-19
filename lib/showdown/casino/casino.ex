@@ -116,7 +116,6 @@ defmodule Showdown.Casino do
   def find_game(id) do
     Repo.get(Showdown.Game, id)
       |> Repo.preload([winner: [:winner], cards: [:card, :owner]])
-      |> IO.inspect
   end
 
   def list_active_games() do

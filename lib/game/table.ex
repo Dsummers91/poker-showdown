@@ -110,7 +110,8 @@ defmodule Game.Table do
 
   @doc "awards users who bet on correct person"
   def award_winners(table, winner) do
-
+    winners = Showdown.Casino.get_bets_by_game_winner(table.id, to_string(winner))
+    total_pot = Showdown.Casino.total_bets(table.id)
   end
 
   def advance_round(table) do
