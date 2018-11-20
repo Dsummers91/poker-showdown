@@ -112,6 +112,8 @@ defmodule Game.Table do
   def award_winners(table, winner) do
     winners = Showdown.Casino.get_bets_by_game_winner(table.id, to_string(winner))
     total_pot = Showdown.Casino.total_bets(table.id)
+    IO.inspect winner
+    IO.inspect total_pot
   end
 
   def advance_round(table) do

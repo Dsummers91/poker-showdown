@@ -73,8 +73,33 @@ defmodule TableTest do
 
   @tag :skip
   test "should be able to update" do
-    game = Table.new_game(1)
+    game = Table.new_game(2)
     result = Table.update_game(game, 1)
     assert(result == {:ok})
+  end
+
+  test "should get a winner" do
+    table = Table.new_game(5)
+      |> Table.deal_round()
+      |> Table.deal_round()
+      |> Table.deal_round()
+    Showdown.Casino.get_game(table.id)
+      |> (&(assert(&1.winner.winner_id == 1))).()
+  end
+
+  test "should award bet" do
+    table = Table.new_game(2)
+    
+    Showdown.Accounts.create_user(%{address: "0x"})
+    Showdown.Accounts.create_user(%{address: "0x4"})
+    Showdown.Accounts.make_bet(%{address: "0x", bet: %{game_id: table.id, winner: "player1", amount: 1000 }})
+    Showdown.Accounts.make_bet(%{address: "0x4", bet: %{game_id: table.id, winner: "player2", amount: 500 }})
+
+    table
+      |> Table.deal_round()
+      |> Table.deal_round()
+      |> Table.deal_round()
+
+    
   end
 end
