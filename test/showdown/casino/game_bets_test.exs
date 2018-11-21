@@ -62,10 +62,10 @@ defmodule Showdown.GameBetsTest do
 
       assert length(game.bets) == 1
       {:ok, gb} = Showdown.Casino.add_bet(game, "player1", "0x", 2000)
-      assert Showdown.Casino.total_bets(game.id) == %{"player1" => 3000}
+      assert Showdown.Casino.total_bets(game.id) == %{"player1" => 3000, "total" => 3000}
       game2 = Repo.get(Showdown.Game, 2) |> Repo.preload([:bets])
       {:ok, gb} = Showdown.Casino.add_bet(game, "player2", "0x", 2000)
-      assert Showdown.Casino.total_bets(game.id) == %{"player1" => 3000, "player2" => 2000}
+      assert Showdown.Casino.total_bets(game.id) == %{"player1" => 3000, "player2" => 2000, "total" => 5000}
     end
   end
 end

@@ -11,7 +11,7 @@ mix ecto.migrate
 
 ## Running
 ```
-./start_blockchain.sh
+./scripts/start_blockchain.sh
 iex -S mix phx.server
 ```
 

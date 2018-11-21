@@ -79,18 +79,20 @@ defmodule TableTest do
   end
 
   test "should get a winner" do
-    table = Table.new_game(5)
+    table = Table.new_game(13)
       |> Table.deal_round()
       |> Table.deal_round()
       |> Table.deal_round()
-    Showdown.Casino.get_game(table.id)
+
+    Showdown.Casino.find_game(table.id)
+      |> Game.Table.convert
       |> (&(assert(&1.winner.winner_id == 1))).()
   end
 
   test "should award bet" do
-    table = Table.new_game(2)
+    table = Table.new_game(3)
     
-    Showdown.Accounts.create_user(%{address: "0x"})
+    Showdown.Accounts.create_user(%{"address" => "0x", "balance" => 1000 })
     Showdown.Accounts.create_user(%{address: "0x4"})
     Showdown.Accounts.make_bet(%{address: "0x", bet: %{game_id: table.id, winner: "player1", amount: 1000 }})
     Showdown.Accounts.make_bet(%{address: "0x4", bet: %{game_id: table.id, winner: "player2", amount: 500 }})
@@ -100,6 +102,31 @@ defmodule TableTest do
       |> Table.deal_round()
       |> Table.deal_round()
 
-    
+    Showdown.Accounts.get_user(%{address: "0x"})
+      |> (&(assert(&1.balance == 1500))).() 
+  end
+
+  test "should award mulptipe users bet" do
+    table = Table.new_game(3)
+    Showdown.Accounts.create_user(%{"address" => "0x", "balance" => 1000 })
+    Showdown.Accounts.create_user(%{"address" => "0x1", "balance" => 1000})
+    Showdown.Accounts.create_user(%{"address" => "0x4", "balance" => 500})
+    Showdown.Accounts.make_bet(%{address: "0x", bet: %{game_id: table.id, winner: "player1", amount: 1000 }})
+    Showdown.Accounts.make_bet(%{address: "0x1", bet: %{game_id: table.id, winner: "player1", amount: 1000 }})
+    Showdown.Accounts.make_bet(%{address: "0x4", bet: %{game_id: table.id, winner: "player2", amount: 500 }})
+
+    table
+      |> Table.deal_round()
+      |> Table.deal_round()
+      |> Table.deal_round()
+
+    Showdown.Accounts.get_user(%{address: "0x"})
+      |> (&(assert(&1.balance == 1250))).() 
+
+    Showdown.Accounts.get_user(%{address: "0x1"})
+      |> (&(assert(&1.balance == 1250))).() 
+
+    Showdown.Accounts.get_user(%{address: "0x4"})
+      |> (&(assert(&1.balance == 0))).() 
   end
 end

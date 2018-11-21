@@ -135,8 +135,13 @@ defmodule Showdown.Casino do
               join: p in Showdown.Owner, on: gb.player_id == p.id,
               group_by: p.name,
               select: {p.name, sum(gb.bet_amount)}
-    Repo.all(query)
-      |> Enum.into(%{})
+
+    players_bets = Repo.all(query)
+      |> Enum.into([])
+
+    total = Enum.reduce(players_bets, 0, fn x, acc -> elem(x, 1) + acc end)
+    
+    Map.put(Enum.into(players_bets, %{}), "total", total)
 
   end
 
@@ -213,7 +218,7 @@ defmodule Showdown.Casino do
       |> Repo.one()
 
     if player do
-      if player.balance - amount <= 0 do
+      if player.balance - amount < 0 do
         {:error, "Player does not have sufficient balance"}
       else
         player

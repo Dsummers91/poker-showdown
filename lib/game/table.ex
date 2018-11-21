@@ -112,8 +112,13 @@ defmodule Game.Table do
   def award_winners(table, winner) do
     winners = Showdown.Casino.get_bets_by_game_winner(table.id, to_string(winner))
     total_pot = Showdown.Casino.total_bets(table.id)
-    IO.inspect winner
-    IO.inspect total_pot
+    if Map.get(total_pot, to_string(winner)) != nil do
+      ratio = Map.get(total_pot, "total", 0) / Map.get(total_pot, to_string(winner), 0)
+      Enum.map(winners, fn x -> 
+        #truncate rather than round due to precision
+        Showdown.Casino.increase_balance(elem(x, 0), trunc(elem(x,1) * ratio)) 
+      end)
+    end
   end
 
   def advance_round(table) do

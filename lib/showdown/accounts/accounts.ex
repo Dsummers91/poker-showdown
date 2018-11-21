@@ -79,7 +79,6 @@ defmodule Showdown.Accounts do
   def top_up_balance(address) do
     Repo.get_by(User, address)
       |> (&(Map.get(&1, :balance))).()
-      |> IO.inspect
 
     Repo.get_by(User, address)
     |> (&(User.changeset(&1, %{balance: Kernel.max( &1.balance, 10000)}))).()
