@@ -15,6 +15,7 @@ defmodule Showdown.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:address, :balance])
+    |> unique_constraint(:address)
     |> validate_required([:address])
     |> validate_number(:balance, greater_than_or_equal_to: 0)
   end

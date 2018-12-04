@@ -111,6 +111,13 @@ defmodule ShowdownWeb.Schema do
       end
     end
 
+    field :pot_updated, :pot do
+      arg :game_id, non_null(:id)
+      config fn args,_ ->
+        {:ok, topic: args.game_id}
+      end
+    end
+
     field :notify_winner, :game do
       arg :game_id, non_null(:id)
       arg :player_id, non_null(:id)

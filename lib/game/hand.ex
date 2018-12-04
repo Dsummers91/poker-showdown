@@ -9,11 +9,34 @@ defmodule Game.Hand do
 
   @type hand :: %{ numbers: list(2..14), suits: suits }
   
-  @ranks [:straight_flush, :flush, :straight, :four_of_a_kind, :full_house, :three_of_a_kind, :two_pair, :one_pair, :high_card]
+  @ranks [:straight_flush, :four_of_a_kind, :full_house, :flush, :straight, :three_of_a_kind, :two_pair, :one_pair, :high_card]
 
   def get_index(rank) do
    Enum.find_index(@ranks, fn x -> x == rank end)
   end
+
+  def get_value(:straight_flush, numbers) do
+    numbers
+      |> Enum.into([])
+      |> Enum.map(fn x -> elem(x, 0) end)
+      |> Enum.sort(&(&1 >= &2))
+      |> Enum.map(fn x -> if x < 10, do: "0"<>x, else: to_string(x) end)  
+      |> Enum.join
+      |> String.to_integer
+      |> (&(90000000000 + &1)).()
+  end
+
+  def get_value(:straight, numbers) do
+    numbers
+      |> Enum.into([])
+      |> Enum.map(fn x -> elem(x, 0) end)
+      |> Enum.sort(&(&1 >= &2))
+      |> Enum.map(fn x -> if x < 10, do: "0"<>x, else: to_string(x) end)  
+      |> Enum.join
+      |> String.to_integer
+      |> (&(60000000000 + &1)).()
+  end
+
 
   def rank(hand) do
     {suits, numbers} =

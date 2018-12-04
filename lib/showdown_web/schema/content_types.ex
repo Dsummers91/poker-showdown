@@ -24,6 +24,14 @@ defmodule ShowdownWeb.Schema.Games do
     field :owner, :owner
   end
 
+  object :pot do
+    field :player1, :integer
+    field :player2, :integer
+    field :player3, :integer
+    field :player4, :integer
+    field :total, :string
+  end
+
   object :players do
     field :board, list_of(:card_details)
     field :player1, list_of(:card_details)

@@ -65,6 +65,16 @@ defmodule HandTest do
     Hand.get_index(:straight_flush) == 0
   end
 
+  test "should get correct value for royal flush" do
+      hand = [Cards.new_card(14, :diamonds), Cards.new_card(13, :diamonds), Cards.new_card(12, :diamonds), Cards.new_card(11, :diamonds), Cards.new_card(10, :diamonds)]
+
+      {suits, numbers} =
+      hand
+        |> Game.Hand.suit_number_count
+
+      assert Hand.get_value(:straight_flush, numbers) == 91413121110
+  end
+
   test "should get two pair" do
     hand = [  Cards.new_card(11, :diamonds), 
               Cards.new_card(8, :clubs), 

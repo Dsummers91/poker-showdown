@@ -9,7 +9,12 @@ defmodule ShowdownWeb.Resolvers.Account do
   end
 
   def create_user(_parent, args, _resolution) do
-    Showdown.Accounts.create_user(args)
+    with {:ok, result} <- Showdown.Accounts.create_user(args) do
+      {:ok, result}
+    else 
+      {:error, err} when is_binary(err) -> {:error, err}
+      {:error, err}  -> {:error, "Problem creating user"}
+    end
   end
 
   def top_up_balance(_parent, args, _resolution) do
